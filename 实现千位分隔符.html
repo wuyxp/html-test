@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用各种方法实现千位分隔符</title>
+</head>
+<body>
+<script>
+    //使用原生算法实现该问题
+
+    var num1 = -12345678.11;
+    var num2 = 123456789;
+    var num3 = -1234567890.111412512;
+    var num4 = -12345678901;
+//    splice(num1,3);   //传入一个数字,并且传入一个按照几位分割
+//    splice(num2,3);
+//    splice(num3,2);
+//    splice(num4,4);
+    //字符串操作
+    function splice(num,n){
+        if(typeof num !== 'number') return false;
+        n = typeof n === 'number' && n>0 ? n : 2;
+
+        var str = num.toString();
+
+        var num0 = '',num1 = '',num2 = '',index=0;
+
+        if(str.charAt(0) == '+' || str.charAt(0) == '-'){
+            num0 = str.charAt(0);
+            index = 1;
+        }
+
+        if(str.indexOf('.')>0){
+            num1 = str.substring(index,str.indexOf('.'));
+            num2 = str.substring(str.indexOf('.')) || '';
+        }else{
+            num1 = str.substring(index);
+        }
+
+        var l = num1.length,new_num = '';
+
+        while(l>0){
+            l = l-n;
+            new_num = (l>0?','+num1.substr(l,n):num1.substr(0,n+l))+new_num;
+        }
+        new_num = num0 + new_num + num2;
+
+        console.log(new_num);
+
+    }
+    regexp_splice(num1,3);   //传入一个数字,并且传入一个按照几位分割
+    regexp_splice(num2,3);
+    regexp_splice(num3,2);
+    regexp_splice(num4,4);
+
+    //正则操作.
+    function regexp_splice(num,n){
+        var num = num.toString();
+        var arr = num.match(/^([+-]?)(\d+)(\.\d+)?$/);
+        if(arr.length<3){
+            return false;
+        }
+        arr[2] = arr[2].replace(/(\d)(?=((\d{3})+$))/g,"$1,");
+        arr[3] = arr[3] || "";
+        console.log(arr.slice(1,4).join(""));
+    }
+
+
+</script>
+</body>
+</html>
