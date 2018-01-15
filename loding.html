@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>loding</title>
+    <style>
+        #loding{
+            width:160px;
+            height:200px;
+            background: #ffffcc;
+            margin: 220px auto;
+            position: relative;
+        }
+        @keyframes loding-bar {
+            0% {transform: scaleX(1)}
+            100% {transform: scaleX(0.2)}
+        }
+        #loding .bar{
+            background: #a0a4b4;
+            height: 2px;
+            position: absolute;
+            left:50%;
+            top: 120px;
+            animation-name: loding-bar;
+            animation-duration: 1s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-play-state: running;
+        }
+
+        #loding .ball{
+            background: #000000;
+            position: absolute;
+            left:50%;
+            top:120px;
+
+            animation-timing-function: ease;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-play-state: running;
+        }
+
+        @keyframes loding-bar-s1 {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                margin-top:-100px;
+                border-radius:100%;
+                transform: rotate(180deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #loding .ball.s1{
+            background:#e83535;
+            animation-name: loding-bar-s1;
+        }
+
+        @keyframes loding-bar-s2 {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                margin-top:-100px;
+                border-radius:100%;
+                transform: rotate(180deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        #loding .ball.s2{
+            background:#e89f31;
+            transform: rotate(360deg);
+            animation-name: loding-bar-s2;
+        }
+    </style>
+</head>
+<body>
+<div id="loding"></div>
+</body>
+<script>
+    (function(){
+        var TIME = 2000;  //ms
+        var MAX_WIDTH = 40;  //px
+        var BALL_WIDTH = MAX_WIDTH*0.6;
+
+        var BALL_STATUS_CLASS = ['s1','s2'];
+
+        var BALL_STATUS_CLASS_INDEX = 0;
+        var BALL_STATUS_CLASS_LENGTH = BALL_STATUS_CLASS.length;
+
+        var setDomStyle = function(dom,index,prev){
+            var sClass = dom.className;
+            var negExp = new RegExp("\\s*"+BALL_STATUS_CLASS[prev],"g");
+            sClass = sClass.replace(negExp,"")+" "+BALL_STATUS_CLASS[index];
+            dom.className = sClass;
+        };
+
+        var loding = document.querySelector("#loding");
+
+        var ball = function(){
+            var dom = document.createElement("div");
+            dom.className = "ball";
+            dom.style.width = dom.style.height = BALL_WIDTH + 'px';
+            dom.style.marginLeft = -BALL_WIDTH/2 + 'px';
+            dom.style.marginTop = -BALL_WIDTH + 'px';
+            dom.style.animationDuration = TIME+'ms';
+            return dom;
+        };
+
+        var bar = function(){
+            var dom = document.createElement("div");
+            dom.className = "bar";
+            dom.style.width = MAX_WIDTH + 'px';
+            dom.style.marginLeft = -MAX_WIDTH/2 + 'px';
+            dom.style.animationDuration = TIME/2+'ms';
+            return dom;
+        };
+
+        var timer = function(dom) {
+            var dom = dom || null;
+            setInterval(function () {
+                var BALL_STATUS_CLASS_INDEX_PREV = BALL_STATUS_CLASS_INDEX || 0;
+                if (BALL_STATUS_CLASS_INDEX >= BALL_STATUS_CLASS_LENGTH - 1) {
+                    BALL_STATUS_CLASS_INDEX = 0;
+                } else {
+                    BALL_STATUS_CLASS_INDEX++;
+                }
+                setDomStyle(dom,BALL_STATUS_CLASS_INDEX,BALL_STATUS_CLASS_INDEX_PREV);
+            }, TIME)
+        }
+
+        var init = function(){
+            var oBall = ball();
+            loding.appendChild(oBall);
+            loding.appendChild(bar());
+            setDomStyle(oBall,0,0);
+            timer(oBall);
+        };
+
+        init();
+
+    })()
+</script>
+</html>

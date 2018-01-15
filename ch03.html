@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>实现sleep</title>
+    <script>
+        /*
+         A:发了三个礼物
+         B:发了一个 （A 2s后）
+         C:发了一个 （A 2s后）
+         D:发了2个礼物（A 3s后）
+         每个礼物当动画时间为5s后消失
+         那么在A三个全消失后 B和C礼物展示就开始出现 1秒后 D的其中一个也显示出来 但另一个进入排序中
+         等BC展示结束后 D的另一个在展示出来
+         */
+
+        function Gift(gifts){
+//todo g数组的length的长度
+            var gifts = gifts || []; //默认礼物
+            var timer = 5; //礼物展示几秒钟
+
+            this.gifts = gifts;
+            this.timer = timer;
+
+            this._cache = [];
+
+            this.init(gifts);
+        };
+
+        Gift.prototype.init = function(arr){
+            this.pushGifts(arr);
+        };
+
+        Gift.prototype.shiftGifts = function(){
+
+        };
+
+        Gift.prototype.pushGifts = function(arr){
+
+            var arr = arr.map(function(v){
+                return {
+                    count : v,
+                    timer : 0
+                }
+            });
+
+            this._cache.concat(arr);
+
+        };
+
+        Gift.prototype.addList = function(gifts,timer){
+            var gifts = gifts; //添加的队列
+            var timer = timer; //添加要展示的时间
+            var that = this;
+
+            setTimeout(function(){
+                that.pushGifts(gifts)
+            },timer)
+        };
+
+        Gift.prototype.run = function(){
+            var statrDate = new Date().getTime();
+            var T = setTimeout(function(){
+
+
+
+
+                var endData = new Data().getTime();
+                if(endData-statrDate >= 1000){
+                    T();
+                }
+            },1000);
+
+            console.log(this._cache);
+        }
+
+
+        var Ag = ['a1','a2','a3'];
+        var Bg = ['b1'];
+        var Cg = ['c1'];
+        var Dg = ['d1','d2'];
+
+
+        var gift = new Gift(Ag);
+        gift.addList(Bg,2000);
+        gift.addList(Cg,2000);
+        gift.addList(Dg,3000);
+
+        gift.run();
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

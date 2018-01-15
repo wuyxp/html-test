@@ -1,0 +1,17 @@
+#!/bin/sh 
+
+files=$(git diff HEAD --name-only --diff-filter=ACMR -- ./**.js) 
+echo $files
+if [ "$files" != "" ]; then
+    for file in ${files}; do
+        eslint ${file}
+    done
+    if [ $? != 0 ]; then
+        echo "校验失败，请修改后再提交"
+        exit 1
+    else
+        echo "校验成功"
+        exit 0
+    fi 
+fi
+exit 1

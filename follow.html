@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #box{
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      background: green;
+      left: 0;
+      top: 0;
+      z-index: 99;
+    }
+  </style>
+</head>
+<body>
+  <div id="box"></div>
+</body>
+<script>
+
+const observable = (obj, fn) => new Proxy(
+  obj, 
+  {
+    set: function(target, key, value, receiver){
+      const result = Reflect.set(target, key, value, receiver);
+      fn(key,value);
+      return result;
+    }
+  }
+);
+  
+
+class Follow {
+  constructor(obj, config){
+    let defaultConfig = {
+      length: 10,
+      time: 100
+    }
+    this.obj = obj;
+    this.config = Object.assign( {}, defaultConfig, config );
+    this.elements = [];
+    this.sits = [];
+
+    this.createElements(this.config.length);
+    this.initSits(this.config.length);
+    this.moveHandle(this.config.time);
+  }
+
+  initSits(length){
+    const self = this;
+    this.sits = Array(length).fill({left:0,top:0}).map((i, k) => observable(i, (key,value) => {
+        self.elements[k].style[key] = value + 'px';
+      })
+    );
+  }
+
+  changeSit(sit,i){
+    this.sits[i] = sit;
+  }
+
+  moveHandle(time){
+    const self = this;
+    this.obj.addEventListener('mousedown', function(){
+      let start = new Date().getTime();
+      document.onmousemove = function(e){
+        let end = new Date().getTime();
+        let left = e.pageX;
+        let top = e.pageY;
+        self.obj.style.left = left + 'px';
+        self.obj.style.top = top + 'px';
+        if(end - start >= time){
+          start = end;
+          let i = self.config.length;
+          while(i-- && i>0){
+            self.sits[i].left = self.sits[i-1].left;
+            self.sits[i].top = self.sits[i-1].top;
+          }
+          self.sits[0].left = left;
+          self.sits[0].top = top;
+        }
+      };
+      document.onmouseup = function(){
+        document.onmousemove = null;
+        document.onmouseup = null;
+      };
+    });
+  }
+
+  createElements(length){
+    let fragment = document.createDocumentFragment();
+    let defaultStyles = {
+      width: '10px',
+      height: '10px',
+      position: 'absolute',
+      background: 'red',
+      left: '0',
+      top: '0'
+    };
+    for(let i = 0;i < length;i++){
+      this.elements[i] = this.createElement(defaultStyles);
+      fragment.appendChild(this.elements[i]);
+    }
+    document.body.appendChild(fragment);
+  }
+
+  createElement(styles){
+    let element = document.createElement('div');
+    for(let i in styles){
+      element.style[i] = styles[i]
+    }
+    return element;
+  }
+}
+
+new Follow(document.querySelector('#box'),{});
+</script>
+</html>
