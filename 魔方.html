@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D盒子</title>
+    <style type="text/css">
+
+    /*1.品模型 2.设置旋转角度的起点和终点 3.父标签开启3D模式 4.设置过渡*/
+        div {
+            width: 200px;
+            height: 200px;
+            /*border-radius: 20px;*/
+            position: absolute;
+            font-size: 100px;
+            text-align: center;
+            line-height: 200px;
+            color: white;
+            text-shadow: 0 0 10px green;
+        }
+        .wrap {
+            position: relative;
+            top: 100px;
+            left: 100px;
+            transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translate(0,0);
+            /*设置变换样式为3D模型*/
+            transform-style: preserve-3d;
+            transition: transform 10s;
+        }
+
+        .wrap:hover {
+            transform: rotateX(1440deg) rotateY(1440deg) rotateZ(1440deg) translate(500px,300px);
+        }
+
+        .wrap div:nth-child(1) {
+            background-color: red;
+            /*顶部*/
+            transform: rotateX(90deg) translateZ(100px);
+        }
+
+        div:nth-child(2) {
+            background-color: yellow;
+            /*底部*/
+            transform: rotateX(270deg) translateZ(100px);
+        }
+
+        div:nth-child(3) {
+            background-color: orange;
+            /*前部*/
+            transform: translateZ(100px);
+        }
+
+        div:nth-child(4) {
+            background-color: black;
+            /*后部*/
+            transform: rotateY(180deg)translateZ(100px);
+        }
+
+        div:nth-child(5) {
+            background-color: pink;
+            /*左部*/
+            transform: rotateY(270deg)translateZ(100px);
+        }
+
+        div:nth-child(6) {
+            background-color: green;
+            /*右部*/
+            transform: rotateY(90deg) translateZ(100px);
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="wrap">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+    </div>
+</body>
+</html>

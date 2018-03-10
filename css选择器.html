@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #div1{
+      height: 200px;
+      background: red;
+    }
+    @media (max-width: 600px) {
+      #div1{
+        background: green;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="div1"></div>
+  <h2>css选择器介绍</h2>
+  <h3>属性选择器</h3>
+  <pre>
+    除了ie6，都可以支持了
+    [attr=value] //该属性表示有确切的值
+    [attr~=value] //该属性表示一系列用空格隔开的多个值
+    [attr|=value] //该属性以value开头或者以value开头并且立即跟上一个中划线
+    [attr^=value] //该属性的值以指定的值开始
+    [attr$=value] //该属性的值包含指定的值（无论其位置）
+    [attr*=value] // 该属性的值以指定的值结束 
+  </pre>
+  <pre>
+      a[href$=".jpg"] {  
+        background: url(jpeg.gif) no-repeat left 50%;
+        padding: 2px 0 2px 20px;
+        }
+      
+      a[href$=".pdf"] {  
+        background: url(pdf.gif) no-repeat left 50%;
+        padding: 2px 0 2px 20px;
+        }
+      
+      a[href$=".doc"] {  
+        background: url(word.gif) no-repeat left 50%;
+        padding: 2px 0 2px 20px;
+        }
+  </pre>
+  <h3>子选择器</h3>
+  <pre>
+    子选择器用符号“>”表示。它允许你定位某个元素的第一级子元素。
+  </pre>
+  <h3>兄弟组合</h3>
+  <pre>
+      该选择器使用加号“+”来链接前后两个选择器。选择器中的元素有同一个父亲，而且第二个必须紧紧的跟着第一个。
+      该选择器使用加号“~”来链接前后两个选择器。选择器中的元素有同一个父亲，不同的是第二个选择其无需紧紧跟随第一个。
+  </pre>
+  <h3>伪类</h3>
+  <pre>
+      有两类动态伪类：链接 和用户行为。
+      链接就是:link 和:visited，
+      而用户行为包括:hover、:active 和:focus。
+  </pre>
+  <h3>:first-child</h3>
+  <p>ie8及以上</p>
+  <pre>
+      :first-child伪类允许你定位某个元素第一个子元素。
+  </pre>
+  <h3>css3选择器</h3>
+  <ul>
+    <li>:target</li>
+    <li>:nth-child</li>
+    <li>:nth-last-child</li>
+    <li>:nth-of-type</li>
+    <li>:nth-last-of-type</li>
+    <li>:last-child</li>
+    <li>:first-of-type 和:last-of-type</li>
+    <li>:only-child</li>
+    <li>:only-of-type</li>
+    <li>:empty</li>
+  </ul>
+  <h3>否定选择器</h3>
+  <pre>
+      否定选择器:not()，可以让你定位不匹配该选择器的元素
+  </pre>
+  <h3>伪元素</h3>
+  <pre>
+    ::first-line伪元素将匹配block、inline-block、table-caption、table-cell等等级别元素的第一行
+    ::first-letter伪元素将会匹配一个文本块的第一个字母，除非在同一行里面包含一些其它元素，比如图片。
+    ::before和::after 伪元素用于在一个元素的前面或后面插入内容，纯CSS方法。
+  </pre>
+
+  <h2>常见布局</h2>
+  <pre>
+  定义:在不对页面进行任何布局控制时，浏览器默认的HTML布局样式式。 
+  说明:这是CSS布局的基础，通过在此基础上改变float，position，display的值实现浮动、定位、表格、弹性布局、网格布局等较复杂布局。
+  </pre>
+  <h3>浮动</h3>
+  <h3>定位</h3>
+  <h3>flex</h3>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{ margin: 0; padding: 0;}
+    .box{
+      display: flex;
+    }
+    li{
+      list-style: none
+    }
+    .list{
+      width:40%;
+      margin: 5%;
+      padding: 5px;
+      border:1px solid rebeccapurple;
+    }
+    .list > li{
+      padding: 5px;
+    }
+    .list > li + li{
+      border-top:1px solid gold;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <ul class="list">
+      <li>1***************<span>X</span></li>
+      <li>2***************<span>X</span></li>
+      <li>3***************<span>X</span></li>
+      <li>4***************<span>X</span></li>
+      <li>5***************<span>X</span></li>
+    </ul>
+    <ul class="list">
+      <li>1***************<span>X</span></li>
+      <li>2***************<span>X</span></li>
+      <li>3***************<span>X</span></li>
+      <li>4***************<span>X</span></li>
+      <li>5***************<span>X</span></li>
+    </ul>
+    <ul class="list">
+      <li>1***************<span>X</span></li>
+      <li>2***************<span>X</span></li>
+      <li>3***************<span>X</span></li>
+      <li>4***************<span>X</span></li>
+      <li>5***************<span>X</span></li>
+    </ul>
+  </div>
+</body>
+<script>
+/**
+ * 构造函数
+ * @param {string}
+ * @return {object}
+ */
+class List {
+  constructor(classes){
+    this.eles = [];
+    this.initElement(classes);
+    this.bindRemove();
+  }
+  initElement(classes){
+    // 省略判断字符串
+    this.eles = Array.from(document.querySelectorAll(`.${classes}`));
+  }
+  bindRemove(){
+    this.eles.forEach(item => {
+      //此处省略ie与chrome的事件兼容处理
+      item.addEventListener('click', (e) => {
+        if(e.target.nodeName.toUpperCase() === 'SPAN'){
+          this.removeElemenet(e.target.parentNode);
+        }
+      }, false);
+    });
+  }
+  removeElemenet(node){
+    let parent = node.parentNode;
+    parent.removeChild(node);
+  }
+}
+window.addEventListener('DOMContentLoaded',function(){
+  new List('list');
+}, false)
+</script>
+</html>

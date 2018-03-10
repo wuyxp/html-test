@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>渐变背景</title>
+<style>
+
+    body{
+        background:#eee;
+    }
+    div{
+        width:200px;
+        height:200px;
+        float:left;
+        margin:30px;
+    }
+    .box1{
+        background:linear-gradient(#fb3, #58a)
+    }
+    .box2{
+        background:linear-gradient(#fb3 50%, #58a 50%)
+    }
+    .box3{
+        background:linear-gradient(#fb3 50%, #58a 50%);
+        background-size:100% 30px;
+    }
+    .box4{
+        background:linear-gradient(#fb3 30%, #58a 30%);
+        background-size:100% 30px;
+    }
+    .box5{
+        background:linear-gradient(#fb3 33.3%, #58a 0%, #58a 66.6%, yellowgreen 0);
+        background-size:100% 45px;
+    }
+    .box6{
+        background:linear-gradient(to right, #fb3 50%, #58a 50%);
+        background-size:100% 100%;
+    }
+    .box7{
+        background:linear-gradient(to right, #fb3 50%, #58a 50%);
+        background-size:30px 100%;
+    }
+    .box8{
+        background:linear-gradient(45deg, #fb3 50%, #58a 50%);
+        background-size:30px 30px;
+    }
+    .box9{
+        background:linear-gradient(45deg, #fb3 25%, #58a 50%, #fb3 75%, #58a);
+        background-size:30px 30px;
+    }
+</style>
+</head>
+<body>
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+    <div class="box4"></div>
+    <div class="box5"></div>
+    <div class="box6"></div>
+    <div class="box7"></div>
+    <div class="box8"></div>
+    <div class="box9"></div>
+</body>
+</html>

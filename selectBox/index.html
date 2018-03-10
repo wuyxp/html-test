@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择框</title>
+    <style>
+        *{ margin: 0; padding: 0; list-style: none}
+        .multi-select-box{
+            width:800px;
+            margin: 50px;
+        }
+        .multi-select-box-left{
+            width: 49%;
+            float:left;
+            border:1px solid #e4e4e4;
+        }
+        .multi-select-box-right{
+            width: 49%;
+            float:right;
+            border:1px solid #e4e4e4;
+        }
+        .multi-select-box-header{
+            height: 46px;
+            background: #f5f5f5;
+            border-bottom:1px solid #e4e4e4;
+            width: 100%;
+            position: relative;
+        }
+        .multi-select-box-header h5{
+            width: 50%;
+            text-indent: 2em;
+            font-size:14px;
+            line-height: 46px;
+            position: absolute;
+            top:0px;
+            left:0px;
+        }
+        .multi-select-box-search{
+            width: 50%;
+            height: 30px;
+            position:absolute;
+            right: 10px;
+            top:10px;
+            border:1px solid #aaa;
+        }
+        .multi-select-box-search-input{
+            margin-right:30px;
+        }
+        .multi-select-box-input{
+            float: left;
+            width:100%;
+            height:30px;
+            background: #fff;
+            border:none;
+        }
+        .multi-select-box-search-btn{
+            position:absolute;
+            right:0px;
+            top:0px;
+            width: 30px;
+            height: 30px;
+            background: #f5f5f5;
+            border:none;
+            border-left:1px solid #aaa;
+        }
+        .multi-select-box-content{
+            height: 260px;
+            overflow: scroll;
+        }
+        .multi-select-box-content li{
+            margin: 10px;
+            height: 25px;
+            position: relative;
+        }
+        .multi-select-box-content li span{
+
+        }
+        .multi-select-box-content li button{
+            position: absolute;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            top:3px;
+            background: #2a92d9;
+            border: none;
+            color: #fff;
+            line-height: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="./selectbox.js"></script>
+<script>
+    $(function(){
+        var $app = $("#app");
+        var box = new MultiSelectBox({
+            container: $app, //用于生成插件的父元素
+            leftTitle: "人员名单",
+            rightTitle: "公开人员名单",
+            isSearchable: true,
+            dataList: [
+                [{id: 1, value: 'data1'}, {id: 2, value: 'data2'}, {id: 5, value: 'data2'}, {id: 6, value: 'data2'}, {id: 7, value: 'data2'}, {id: 8, value: 'data2'}, {id: 9, value: 'data2'}, {id: 10, value: 'data2'}, {id: 11, value: 'data2'}, {id: 12, value: 'data2'}], // 左侧列表
+                [{id: 3, value: 'data3'}, {id: 4, value: 'data4'}]  // 右侧列表
+            ]
+        });
+        /*
+        box.addItem(1); // 用于下面获得变化列表用，一般通过UI界面操作。
+        box.removeItem(3); // 用于下面获得变化列表用，一般通过UI界面操作。
+        console.log(box.getChangedData()); // 获取变化列表
+        box.setData([
+            [{id: 1, value: 'data1'}, {id: 2, value: 'data2'}], // 左侧列表
+            [{id: 3, value: 'data3'}, {id: 4, value: 'data4'}]  // 右侧列表
+        ]);
+        */
+        console.log(box.getData("left")); // 获取左侧的最终列表
+    })
+</script>
+</html>

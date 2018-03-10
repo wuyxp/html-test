@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        div.container{
+            width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            border: 1px solid #DDDDDD;
+            box-shadow: 0 0 2px 0 #DDDDDD;
+        }
+        div.container>input[type='text']{
+            width: 80%;
+            height: 30px;
+            outline: none;
+            margin-right: 10px;
+        }
+        div.container>input[type='button']{
+            height: 33px;
+            border: none;
+            outline: none;
+            width: 60px;
+            vertical-align: middle;
+        }
+        .container>p{
+            margin-top: 30px;
+        }
+        .container>p span{
+            display: inline-block;
+            background-color: #DDDDDD;
+            padding: 6px 10px;
+            margin-right: 20px;
+            cursor: default;
+            font-size: 14px;
+        }
+        .container>p input{
+            outline: none;
+            height: 25px;
+            width: 120px;
+        }
+        .box{
+            line-height: 35px;
+            border-top: 1px solid #DDDDDD;
+            margin-top: 10px;
+        }
+        .box input[type=checkbox]{
+            margin-right: 10px;
+        }
+        .box p{
+            position: relative;
+        }
+        .box p small{
+            position: absolute;
+            right: 15px;
+            color: gray;
+        }
+        .hide{
+            opacity: 0;
+            position: absolute!important;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <input class="text" type="text"/><input class="add" type="button" value="添加"/>
+    <p>
+        <span class="all">显示全部</span>
+        <span class="finish">已完成</span>
+        <span class="unfinish">未完成</span>
+        <input class="s" type="text" placeholder="输入内容搜索"/>
+        <span class="search">搜索</span>
+    </p>
+    <div class="box"></div>
+    <template>
+        <input type="checkbox" data-i="0" class="check"/><span>{{do}}</span><small>{{dt}}</small>
+    </template>
+</div>
+<script>
+    var cont=document.querySelector('div.container');
+    var addInput=cont.querySelector('input.text');
+    var box=cont.querySelector('div.box');
+    var items=box.getElementsByTagName('p');
+    var total,countArr=[];
+    var addText,templateHtml,newdt,dt,check;
+    function show1(items){
+        for(var i=0;i<items.length;i++){
+            items[i].classList.add('hide');
+            console.log(items[i].children[0].checked);
+            if(items[i].children[0].checked){
+                items[i].classList.remove('hide');
+            }
+        }
+    }
+    function show2(items){
+        for(var i=0;i<items.length;i++){
+            items[i].classList.add('hide');
+            if(items[i].children[0].getAttribute('checked')!='true'){
+                items[i].classList.remove('hide');
+            }
+        }
+    }
+    function show3(items){
+        for(var i=0;i<items.length;i++){
+            items[i].classList.remove('hide')
+        }
+    }
+    cont.addEventListener('click',function(e){
+        var target= e.target;
+        var className=target.className;
+        switch (className){
+            case 'add':
+                addText=addInput.value;
+                dt=new Date();
+                newdt=dt.getFullYear()+'-'+dt.getMonth()+1+'-'+dt.getDate()+' '+
+                        dt.getHours()+':'+dt.getMinutes()+':'+dt.getSeconds();
+                templateHtml=document.querySelector('template').innerHTML
+                        .replace('{{do}}',addText).replace('{{dt}}',newdt);
+                var newNode=document.createElement('p');
+                newNode.innerHTML=templateHtml;
+                box.insertBefore(newNode,items[0]);
+                total=box.querySelectorAll('p');
+                break;
+            case 'finish':
+                show1(items);
+                break;
+            case 'unfinish':
+                show2(items);
+                break;
+            case 'all':
+                show3(items);
+                break;
+            case 'search':
+                var searchText=cont.querySelector('input.s').value;
+                var html='';
+                for(var i=0;i<items.length;i++){
+                    if(items[i].children[1].innerText.indexOf(searchText)>=0){
+                        items[i].classList.remove('hide')
+                    }else
+                        items[i].classList.add('hide')
+                }
+        }
+    });
+</script>
+</body>
+</html>

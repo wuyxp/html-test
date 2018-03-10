@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script>
+    document.addEventListener('DOMContentLoaded',function(){
+      var li1 = document.querySelectorAll('li');
+      var ol = document.getElementById('ol');
+      var li2 = ol.children;
+      console.log(li1);
+      console.log(li2);
+      ol.removeChild(li1[0]);
+      console.log(li1);
+      console.log(li2);
+
+      console.log('---------');
+      console.log(ol.attributes)
+    })
+  </script>
+</head>
+<body>
+  <div>
+    <ol id="ol" abc='abc' title='aaaa'>
+      <li>11</li>
+      <li>21</li>
+      <li>31</li>
+      <li>41</li>
+      <li>51</li>  
+    </ol>
+  </div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html *{
+      margin:0;
+      padding:0;
+    }
+    section{
+      width: 100%;
+      height: 30px;
+      margin-bottom: 20px;
+    }
+    .left{
+      background: red;
+      width:200px;
+    }
+    .center{
+      background: yellow;
+    }
+    .right{
+      background: blue;
+      width:200px;
+    }
+  </style>
+</head>
+<body>
+  <section class="position">
+    <style>
+        .position{
+          position:relative;
+        }
+        .position > div{
+          height: 100%;
+        }
+        .position .left{
+          position:absolute;
+          left:0;
+          top:0;
+        }
+        .position .right{
+          position:absolute;
+          right:0;
+          top:0;
+        }
+        .position .center{
+          margin: 0 200px;
+        }
+      </style>
+    <div class="left"></div>
+    <div class="center">
+      <h2>
+        这是绝对定位布局
+      </h2>
+    </div>
+    <div class="right"></div>
+  </section>
+  <section class="float">
+    <style>
+      .float{
+        overflow: -hidden;
+      }
+      .float .left{
+        float:left;
+        height: 20px;
+      }
+      .float .right{
+        float:right;
+        height: 20px;
+      }
+      .float .center{
+        margin:0 200px;
+      }
+    </style>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h2>这是浮动布局</h2>
+    </div>
+  </section>
+  <section class="flex">
+    <style>
+      .flex{
+        display: flex;
+      }
+      .flex .center{
+        flex:1;
+      }
+    </style>
+    <div class="left"></div>
+    <div class="center">
+      <h2>这是flex布局.</h2>
+    </div>
+    <div class="right"></div>
+  </section>
+  <section class="table">
+    <style>
+      .table{
+        display: table;
+      }
+      .table > div{
+        display: table-cell;
+      }
+    </style>
+    <div class="left"></div>
+    <div class="center">
+      <h2>这是table布局</h2>
+    </div>
+    <div class="right"></div>
+  </section>
+  <section class="gird">
+    <style>
+      .gird{
+        display: grid;
+        grid:auto/200px auto 200px;
+      }
+    </style>
+    <div class="left"></div>
+    <div class="center">
+      <h2>这是gird布局</h2>
+    </div>
+    <div class="right"></div>
+  </section>
+</body>
+</html>

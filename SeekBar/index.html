@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <title>拖动条</title>
+    <style>
+        .seekBar-box{
+            width: 800px;
+            height: 100px;
+            border:0px solid;
+            margin: 20px;
+        }
+        .seekBar-box-bar{
+            width:80%;
+            height: 25px;
+            background: #f5f5f5;
+            position:relative;
+            margin-top: 10px;
+            float: left;
+        }
+        .seekBar-box-block{
+            width:20px;
+            height:40px;
+            background: rgba(18, 133, 214, 1);
+            position:absolute;
+            left:0px;
+            top:-10px;
+            cursor: pointer;
+        }
+        .seekBar-box-bg{
+            height:100%;
+            background: rgba(18, 133, 214, 1);
+            position: absolute;
+            left:0;
+            top:0;
+        }
+        .seekBar-box-block:before{
+            content:'';
+            width:1px;
+            height: 60%;
+            position:absolute;
+            top:20%;
+            left:25%;
+            background: #fff;
+        }
+        .seekBar-box-block:after{
+            content:'';
+            width:1px;
+            height: 60%;
+            position:absolute;
+            top:20%;
+            right:25%;
+            background: #fff;
+        }
+        .seekBar-box-text{
+            width:18%;
+            float: right;
+            height: 40px;;
+            border:1px solid #53a8e1;
+        }
+        .seekBar-box-input{
+            width: 30%;
+            float: left;
+            height:100%;
+            line-height: 100%;
+            background: none;
+            border:none;
+            font-size:16px;
+            margin-left: 5%;
+            color:#3c3c3c;
+        }
+        .seekBar-box-unit{
+            width: 30%;
+            float: left;
+            height:100%;
+            line-height: 40px;
+            font-size:16px;
+            color:#3c3c3c;
+            text-align: center;
+            margin-left: 2%;
+        }
+        .seekBar-box-btns{
+            width:30%;
+            background: #2a92d9;
+            height: 100%;
+            float: right;
+            position:relative;
+        }
+        .seekBar-box-tip{
+            width:100%;
+            float: left;
+            color:#999999;
+            margin-top: 20px;
+        }
+        .seekBar-box-up{
+            position: absolute;
+            top:20%;
+            left:50%;
+            margin-left: -5px;
+            width:0;
+            height:0;
+            border-left: 8px solid transparent;
+            border-right:8px solid transparent;
+            border-bottom: 8px solid #fff;
+        }
+        .seekBar-box-down{
+            width:0;
+            height:0;
+            position: absolute;
+            bottom:20%;
+            left:50%;
+            margin-left: -5px;
+            border-left:8px solid transparent;
+            border-right:8px solid transparent;
+            border-top:8px solid #fff;
+        }
+    </style>
+</head>
+<body>
+<h1>拖动条</h1>
+<input type="button" value="获取sb1的值" id="bt1">
+<input type="button" value="获取sb2的值" id="bt2">
+<input type="button" value="获取sb3的值" id="bt3">
+<input type="button" value="获取sb4的值" id="bt4">
+
+<div class="seekBar-box" id="sb1"></div>
+<div class="seekBar-box" id="sb2"></div>
+<div class="seekBar-box" id="sb3"></div>
+<div class="seekBar-box" id="sb4"></div>
+</body>
+<script>
+    // 拖动条控件
+    function SeekBar(obj,config){
+        this.obj = obj;
+        this.init(config);
+    };
+    SeekBar.prototype.init = function(config){
+        this.initConfig(config);
+        this.initHTML();
+        this.initElement();
+        this.drage();
+        this.bindEvent();
+        this.setInputValue(this.minValue);
+        this.oTip.find('span').html(this.tip);
+        this.oUnit.html(this.unit);
+    };
+    SeekBar.prototype.initConfig = function(config){
+        this.maxValue = config.maxValue;
+        this.minValue = config.minValue;
+        this.step = config.step;
+        this.unit = config.unit;
+        this.tip = config.tip || this.minValue + this.unit +"-"+ this.maxValue + this.unit +",步长为"+this.step+this.unit;
+    };
+    SeekBar.prototype.initHTML = function(){
+       var str = `
+            <div class="seekBar-box-bar">
+                <div class="seekBar-box-bg"></div>
+                <div class="seekBar-box-block"></div>
+            </div>
+            <div class="seekBar-box-text">
+                <input type="text" class="seekBar-box-input">
+                <label class="seekBar-box-unit"></label>
+                <div class="seekBar-box-btns">
+                    <a href="javascript:;" class="seekBar-box-up"></a>
+                    <a href="javascript:;" class="seekBar-box-down"></a>
+                </div>
+            </div>
+            <div class="seekBar-box-tip">
+                <span></span>
+            </div>
+       ` ;
+        this.obj.html(str);
+    };
+    SeekBar.prototype.initElement = function(){
+        this.oBar = this.obj.find(".seekBar-box-bar");
+        this.oBlock = this.obj.find(".seekBar-box-block");
+        this.oBg = this.obj.find(".seekBar-box-bg");
+        this.oInput = this.obj.find(".seekBar-box-input");
+        this.oUp = this.obj.find(".seekBar-box-up");
+        this.oDown = this.obj.find(".seekBar-box-down");
+        this.oTip = this.obj.find(".seekBar-box-tip");
+        this.oUnit = this.obj.find(".seekBar-box-unit");
+
+        this.oBarWidth = this.oBar.width();
+        this.oBlockWidth = this.oBlock.width();
+    };
+    SeekBar.prototype.setBarValue = function(val){
+        var w = (this.oBarWidth - this.oBlockWidth) * (val-this.minValue)/(this.maxValue-this.minValue);
+        this.oBlock.css('left',w + 'px');
+        this.oBg.css('width',this.oBlockWidth/2 + w);
+    };
+    SeekBar.prototype.setInputValue = function(val){
+        var v=0,sv=this.minValue;
+        var val = parseFloat(val);
+        if(!isNaN(val)){
+            v = parseInt(val/this.step * this.step);
+            sv = val<this.minValue?this.minValue:(val>this.maxValue?this.maxValue:((val - v) < (this.step / 2 ) ? v : (v + this.step)));
+        }
+        this.oInput.val(sv);
+        this.setBarValue(sv);
+    };
+    SeekBar.prototype.drage = function(){
+        this.oBlock.on('mousedown',function() {
+            var oleft = event.pageX;
+            var l = this.oBlock.position().left;
+            $(document).on('mousemove', function () {
+                var sleft = event.pageX;
+                this.setInputValue((sleft - oleft + l) * (this.maxValue - this.minValue) / (this.oBarWidth - this.oBlockWidth) + this.minValue);
+            }.bind(this));
+            $(document).on('mouseup', function () {
+                $(document).off('mousemove');
+                $(document).off('mouseup');
+            }.bind(this));
+        }.bind(this))
+    };
+    SeekBar.prototype.bindEvent = function(){
+        this.oInput.on('blur',function(){
+            this.setInputValue(this.oInput.val());
+        }.bind(this));
+        this.oBar.on('click',function(){
+            if(!$(event.target).hasClass('seekBar-box-block')){
+                var num = (event.pageX - this.oBar.offset().left) * (this.maxValue - this.minValue) / (this.oBarWidth - this.oBlockWidth)+ this.minValue;
+                console.log(num);
+                this.setInputValue(num);
+            };
+        }.bind(this));
+        this.oUp.on('click',function(){
+            this.setInputValue(parseFloat(this.oInput.val())+this.step);
+        }.bind(this));
+        this.oDown.on('click',function(){
+            this.setInputValue(parseFloat(this.oInput.val())-this.step);
+        }.bind(this));
+    };
+    SeekBar.prototype.getValue = function(){
+      return this.oInput.val();
+    };
+
+    $(function(){
+        var sb1 = new SeekBar($("#sb1"),{
+            maxValue : 100,
+            minValue : 1,
+            step : 1,
+            unit : "核"
+        });
+
+        var sb2 = new SeekBar($("#sb2"),{
+            maxValue : 200,
+            minValue : 2,
+            step : 2,
+            unit : "GB"
+        });
+
+        var sb3 = new SeekBar($("#sb3"),{
+            maxValue : 300,
+            minValue : 100,
+            step : 3,
+            unit : "GB"
+        });
+
+        var sb4 = new SeekBar($("#sb4"),{
+            maxValue : 100,
+            minValue : 2,
+            step : 2,
+            unit : "GB",
+            tip : '这个选项非必选项'
+        });
+
+        $("#bt1").click(function(){
+           alert(sb1.getValue());
+        });
+        $("#bt2").click(function(){
+            alert(sb2.getValue());
+        });
+        $("#bt3").click(function(){
+            alert(sb3.getValue());
+        });
+        $("#bt4").click(function(){
+            alert(sb4.getValue());
+        });
+
+
+    })
+</script>
+</html>

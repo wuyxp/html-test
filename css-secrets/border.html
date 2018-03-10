@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>测试边框</title>
+<style>
+    body{
+        background:#eee;
+    }
+    div{
+        width:100px;
+        height:100px;
+        float:left;
+        margin:30px;
+    }
+    .box1{
+        border:10px solid hsla(0,0%,100%,.5);
+        background:white;
+    }
+    .box2{
+        border:10px solid hsla(0,0%,100%,.5);
+        background:white;
+        background-clip:padding-box;
+    }
+    .box3{
+        background:yellowgreen;
+        box-shadow:0 0 0 10px #655;
+    }
+    .box4{
+        background:yellowgreen;
+        box-shadow:0 0 0 10px #655, 0 0 0 15px deeppink;
+    }
+    .box5{
+        background:yellowgreen;
+        border:10px solid #655;
+        outline:5px solid deeppink;
+    }
+    .box6{
+        background:yellowgreen;
+        border:.8em solid #655;
+        border-radius:1em;
+        box-shadow: 0 0 0 .4em deeppink;
+        outline:.6em solid deeppink;
+    }
+</style>
+</head>
+<body>
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+    <div class="box4"></div>
+    <div class="box5"></div>
+    <div class="box6"></div>
+</body>
+</html>

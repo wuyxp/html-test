@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片分裂旋转</title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <style>
+        *{ margin: 0; padding: 0; list-style: none}
+        ul{
+            width:600px;
+            height:600px;
+            margin: 100px auto;
+            border:1px solid;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        li{
+            width:100%;
+            height:100%;
+            position: absolute;
+            top:0;
+            left:0;
+        }
+
+        li p{
+            width:100%;
+            position: absolute;
+            line-height: 600px;
+            text-align: center;
+            font-size: 50px;
+            color:#fff;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+
+        li:nth-child(1){
+            z-index: 999999;
+            background: url("img/f1.jpg");
+        }
+        li:nth-child(2){
+            z-index: 999998;
+            background: url("img/f2.jpg");
+        }
+        li:nth-child(3){
+            z-index: 999997;
+            background: url("img/f3.jpg");
+        }
+        li:nth-child(4){
+            z-index: 999996;
+            background: url("img/f4.jpg");
+        }
+        li:nth-child(5){
+            z-index: 999995;
+            background: url("img/f5.jpg");
+        }
+        li:nth-child(6){
+            z-index: 999994;
+            background: url("img/f6.jpg");
+        }
+    </style>
+    <script>
+        $(function(){
+            var row = 20, col =20;  //横竖
+
+            var WIDTH = 600,HEIGHT = 600; //宽高
+
+            var span_w = WIDTH/row, span_h = HEIGHT/col;
+
+            var $box = $("ul");
+
+            var index = 0;
+
+            var len = $box.find("li").length;
+            var moveb = false;
+
+            for(var i=0;i<len;i++){
+                add(i);
+            };
+
+            function add(num){
+                var $div = $box.find("li").eq(num);
+
+                var bg = $div.css("backgroundImage");
+                $div.css("background","none");
+
+                for(var i=0;i<row;i++){
+                    for(var j=0;j<col;j++){
+                        var tmpDom = $("<span></span>");
+                        var bgp = -j*span_w+"px "+(-i*span_h)+"px";
+                        tmpDom.css({
+                            position:"absolute",
+                            width : span_w,
+                            height: span_h,
+                            backgroundImage:bg,
+                            backgroundPosition:bgp,
+                            top : i*span_h,
+                            left:j*span_w
+                        }) ;
+
+                        $div.find(".bg").append(tmpDom);
+                    }
+                };
+            };
+
+            $("button").click(function(){
+                if(moveb) return false;
+
+                console.log(index,len);
+                moveb = true;
+                move(index,function(){
+                    var z = $(this).css("z-index");
+                    $(this).css("z-index",z-len).find("p").css("top","0").end().find(".bg span").css({"opacity":"1"});
+                    moveb = false;
+                });
+                if(++index>=len){
+                    index = 0;
+                };
+
+
+            });
+            function move(num,cb){
+                var $li = $box.find("li").eq(num);
+                var aSpan = $li.find(".bg span");
+                var p = $li.find("p");
+                var ind = 0;
+                //console.log(aSpan);
+                p.animate({"top":"-100%"},"200");
+                var tame = setInterval(function(){
+                    $(aSpan[ind]).animate({"opacity":0},"500",function(){
+                        if(($(this).index()+1) == ind){
+                            cb.call($li);
+                        }
+                    });
+
+                    if((++ind)>=row*col){
+                        clearInterval(tame);
+
+                    }
+                },16);
+
+
+            }
+        })
+    </script>
+</head>
+<body>
+<button style="width: 100px; height: 50px; text-align: center; margin: 0px auto; display: block; z-index: 3">消失</button>
+<ul>
+    <li>
+        <div class="bg"></div>
+        <p>111111</p>
+    </li>
+    <li>
+        <div class="bg"></div>
+        <p>2222222</p>
+    </li>
+    <li>
+        <div class="bg"></div>
+        <p>33333333</p>
+    </li>
+
+    <li>
+        <div class="bg"></div>
+        <p>4444444</p>
+    </li>
+    <li>
+        <div class="bg"></div>
+        <p>5555555</p>
+    </li>
+    <li>
+        <div class="bg"></div>
+        <p>66666666</p>
+    </li>
+
+</ul>
+</body>
+</html>
