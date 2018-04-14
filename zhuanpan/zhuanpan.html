@@ -13,12 +13,16 @@
 
     var lottery = (function(){
       var prizes = $('#prizes').find('li');
+
+      // 初始化转的顺序
       var prizesSoteDom = $([prizes[0], prizes[1], prizes[2], prizes[4], prizes[7], prizes[6], prizes[5], prizes[3]]);
 
       return new Lottery({
           arrDom: prizesSoteDom, // jquery 格式的奖品列表
           resolve: function(num){  // 成功回调
-              $('#lotteryBtn').removeClass('active')
+              $('#lotteryBtn').removeClass('active');
+              $('#lotteryLabel').html(`目前重了${num}奖`);
+              lottery.setLevel(parseInt(num));
           },
           reject: function(err){ // 失败回调
               $('#lotteryBtn').removeClass('active')
@@ -29,24 +33,14 @@
     $('#lotteryBtn').click(function(){
       lottery.start();
       // 请求获奖等级
-      fetchPrize({
-            success:function(data){
-              $('#lotteryLabel').html(`目前重了${data}奖`)
-                lottery.setLevel(parseInt(data));
-            },
-            error:function(err){
-                var error = err || '';
-                lottery.reject(error);
-            }
-      });
-      function fetchPrize(obj){
-        setTimeout(function(){
-          obj.success(Math.floor(Math.random() * 8));
-        },1000)
-      }
-
+      fetchPrize();
     });
     
+    function fetchPrize(){
+      setTimeout(function(){
+        lottery.resolve(Math.floor(Math.random() * 8));
+      },1000)
+    }
     
         
         
@@ -57,31 +51,31 @@
   <div>
     <div class="rotatePanel">
       <ul class="prizes" id="prizes">
-          <li class="prize-y3" data-prize='y3'>
+          <li class="prize-y3" data-prize='1'>
               <i class="y3"></i>
               <span>1</span>
           </li>
-          <li class="prize-y5" data-prize='y5'>
+          <li class="prize-y5" data-prize='2'>
               <i class="y5"></i>
               <span>2</span>
           </li>
-          <li class="prize-y10" data-prize="y10">
+          <li class="prize-y10" data-prize="3">
               <i class="y10"></i>
               <span>3</span>
           </li>
-          <li class="prize-y30" data-prize='y30'>
+          <li class="prize-y30" data-prize='4'>
               <i class="y30"></i>
               <span>4</span>
           </li>
-          <li class="prize-y50" data-prize='y50'>
+          <li class="prize-y50" data-prize='5'>
               <i class="y50"></i>
               <span>5</span>
           </li>
-          <li class="prize-p05" data-prize='p05'>
+          <li class="prize-p05" data-prize='6'>
               <i class="p05"></i>
               <span>6</span>
           </li>
-          <li class="prize-p1" data-prize='p1'>
+          <li class="prize-p1" data-prize='7'>
               <i class="p1"></i>
               <span>7</span>
           </li>
