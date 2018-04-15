@@ -30,9 +30,19 @@ proto.createBarrier = function(){
   return barrier;
 }
 
+proto.getMovePoint = function(){
+  return {
+    x: this.movePoint.x + this.targetPosition.x,
+    y: this.movePoint.y + this.targetPosition.y,
+  }
+}
 proto.changePoint = function(movePoint){
   // 这里处理坐标
   movePoint.y = movePoint.y + 1;
+  this.options.move && this.options.move.call(this, this.getMovePoint());
+}
+proto.stopMove = function(){
+  this.enable = false;
 }
 
 proto.start = function(){
@@ -42,7 +52,7 @@ proto.start = function(){
     y: 0
   }
   this.hackTransform();
-  this.render(false, this.barrier, this.movePoint, this.targetPosition, this.changePoint, this.options.initSpeed);
+  this.render(false, this.barrier, this.movePoint, this.targetPosition, this.changePoint.bind(this), this.options.initSpeed);
 },
 
 proto.end = function(){

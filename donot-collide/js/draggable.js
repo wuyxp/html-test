@@ -23,6 +23,7 @@ proto.init = function() {
   } else {
     this.elem.addEventListener('mousedown', this);
   }
+  this.setDefaultTarget()
 }
 
 proto.setTargetDom = function() {
@@ -31,21 +32,23 @@ proto.setTargetDom = function() {
   // 如果参数使用了parentMove接口，那么就使用parentMove作为拖拽的目标元素
   this.targetDom = this.parentMove || this.elem;
 }
-
+proto.setDefaultTarget = function(){
+  this.movePoint = {
+    x: 0,
+    y: 0
+  };
+  this.style = this.hackStyle(this.targetDom);
+  this.targetSize = this.getSize(this.style);
+  this.parentSize = this.getSize(this.hackStyle(this.targetDom.parentNode))
+  this.targetPosition = this.getPosition(this.style);
+},
 proto.dragDown = function(event) {
   this.enable = true;
   this.hackTransform();
   this.addClassName();
   this.setIndex();
-  this.style = this.hackStyle(this.targetDom);
-  this.targetSize = this.getSize(this.style);
-  this.parentSize = this.getSize(this.hackStyle(this.targetDom.parentNode))
-  this.targetPosition = this.getPosition(this.style);
+  this.setDefaultTarget();
   this.startPoint = this.getCoordinate();
-  this.movePoint = {
-      x: 0,
-      y: 0
-  };
   this.setPositionProperty();
   this.bindCallBackEvent();
   this.render(this.options.backToPosition, this.targetDom, this.movePoint, this.targetPosition, function(){}, 0);
@@ -168,6 +171,12 @@ proto.resetPosition = function() {
   this.targetDom.style.cssText+=';left:'+this.endPoint.x + 'px;top:'+this.endPoint.y + 'px;transform:translate3d(0,0,0)';
 }
 
+proto.getMovePoint = function(){
+  return {
+    x: this.movePoint.x + this.targetPosition.x,
+    y: this.movePoint.y + this.targetPosition.y,
+  }
+}
 // 手动阻止移动清空所有事件
 proto.stopMove = function(){
   this.dragUp();
@@ -178,10 +187,7 @@ proto.touchstart = proto.mousedown = function(event) {
 }
 proto.mousemove = proto.touchmove = function() {
   this.dragMove();
-  this.options.move({
-    x: this.movePoint.x + this.targetPosition.x,
-    y: this.movePoint.y + this.targetPosition.y,
-  });
+  this.options.move(this.getMovePoint());
 }
 
 proto.mouseup = proto.touchend = function() {
