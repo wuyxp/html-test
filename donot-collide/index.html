@@ -35,27 +35,22 @@
     // 使飞船可以拖动
     // api 的使用
     var airship = new Draggable('#ariship', {
+      outsideOfSwipper:true,
       start(e){
         log("点击了",e);
       },
       move(e){
         log('move ,,',e);
+        if(e.x > 100){
+          log('stop-x');
+          airship.stopMove();
+        }
       },
       end(e){
         log('end', e)
       }
     });
-    /*
-    $airship.on('touchstart mousedown',function(e){
-      log('down',e);
-      $(document).on('touchmove mousemove', function(de){
-        log(de);
-      });
-      $(document).on('touchend mouseup', function(e){
-        $(document).off();
-      })
-    });
-    */
+    
   })
 </script>
 </html>
