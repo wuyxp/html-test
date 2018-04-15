@@ -31,13 +31,7 @@ proto.setTargetDom = function() {
   // 如果参数使用了parentMove接口，那么就使用parentMove作为拖拽的目标元素
   this.targetDom = this.parentMove || this.elem;
 }
-proto.getDom = function(elem) {
-  if (typeof elem === 'string') {
-      return document.querySelector(elem);
-  } else {
-      return elem;
-  }
-}
+
 proto.dragDown = function(event) {
   this.enable = true;
   this.hackTransform();
@@ -54,7 +48,7 @@ proto.dragDown = function(event) {
   };
   this.setPositionProperty();
   this.bindCallBackEvent();
-  this.render();
+  this.render(this.options.backToPosition, this.targetDom, this.movePoint, this.targetPosition, function(){}, 0);
 }
 proto.addClassName=function(){
   if (this.options.addClassName) this.elem.className += ' ' + this.options.addClassName;
@@ -63,34 +57,7 @@ proto.setIndex=function(){
   // this.elem.style.zIndex=2147483647;
 }
 
-proto.getPosition = function(style) {
-  var position = {};
-  position.x = style.left == 'auto' ? 0 : parseInt(style.left, 10);
-  position.y = style.top == 'auto' ? 0 : parseInt(style.top, 10);
-  position = this.addTransform(position);
-  return position;
-}
-proto.getSize = function(style){
-  var size = {};
-  size.width = style.width == 'auto' ? 0 : parseInt(style.width, 10);
-  size.height = style.height == 'auto' ? 0 : parseInt(style.height, 10);
-  return size;
-}
-proto.addTransform = function(position) {
-  var transform = this.style[this.transformProperty];
-  if (!transform || transform.indexOf('matrix') == '-1') {
-      // 如果当前元素没有设置transform属性，那么我们可以直接返回position
-      return position;
-  }
-  // 如果是2D的transform，那么translate的值的索引以4开始，否则就是3D，以12开始
-  var translateIndex = transform.indexOf('matrix3d') == '-1' ? 4 : 12;
-  var transformArray = transform.split(',');
-  this.translateX = parseInt(transformArray[translateIndex], 10);
-  this.translateY = parseInt(transformArray[translateIndex + 1], 10);
-  position.x += this.translateX;
-  position.y += this.translateY;
-  return position;
-}
+
 // 获取鼠标的坐标
 proto.getCoordinate = function() {
   return {
@@ -131,28 +98,7 @@ proto.bindEvent = function(isBind) {
       window[eventListener](handle, context);
   })
 }
-proto.render = function() {
-  var context = this
-  this.hackRequestAnimationFrame();
-  this._render = function() {
-      if (!context.enable) {
-          // 通过直接return取消定时器
-          return;
-      }
-      context.setTransform();
-      requestAnimationFrame(context._render);
-  }
-  requestAnimationFrame(this._render);
-}
-proto.setTransform = function() {
-  if (!this.options.backToPosition) {
-      this.targetDom.style[this.transformProperty] = 'translate3d(' + this.movePoint.x + 'px,' + this.movePoint.y + 'px,' + '0)';
-  } else {
-      var cssString = 'left:' + (this.movePoint.x + this.targetPosition.x) + 'px;top:' + (this.movePoint.y + this.targetPosition.y) + 'px;';
-      // cssText会覆盖原样式 所以需要写+ 另外;是为了兼容IE8的cssText不返回; 不加上会出BUG
-      this.targetDom.style.cssText += ';' + cssString;
-  }
-}
+
 proto.dragMove = function() {
   var vector = this.getCoordinate();
   var moveVector = {

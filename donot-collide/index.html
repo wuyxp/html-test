@@ -19,6 +19,7 @@
 <script src="./js/jquery.min.js" ></script>
 <script src="./js/Util.js"></script>
 <script src="./js/draggable.js"></script>
+<script src="./js/barrier.js"></script>
 <script>
   window.log = console.log;
   $(function(){
@@ -29,6 +30,15 @@
     // 增加控制的飞船物体
     var $airship = $('<div id="ariship">').addClass('airship');
     var $main = $('#main');
+
+    // 障碍物
+    var barriers = new Barrier('#main', {
+      className: 'barrier',
+      initX: 10,
+      initY: 20,
+      initSpeed: 100
+    });
+
     $main.append($airship);
 
 
@@ -43,7 +53,7 @@
         log('move ,,',e);
         if(e.x > 100){
           log('stop-x');
-          airship.stopMove();
+          // airship.stopMove();
         }
       },
       end(e){
