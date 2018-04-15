@@ -5,6 +5,7 @@
 }
 html, body{
   height: 100%;
+  overflow: hidden;
 }
 
 .container{
@@ -29,4 +30,14 @@ html, body{
 .main{
   flex: 1;
   background: #CCFFFF;
+  position: relative;
+}
+
+.airship{
+  width: 100px;
+  height: 50px;
+  background: #3333FF;
+  position: absolute;
+  top: 0;
+  left: 0;
 }

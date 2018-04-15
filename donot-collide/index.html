@@ -13,15 +13,49 @@
     <div class="dashbord">
       这是控制室
     </div>
-    <div class="main"></div>
+    <div class="main" id="main"></div>
   </div>
 </body>
 <script src="./js/jquery.min.js" ></script>
+<script src="./js/Util.js"></script>
+<script src="./js/draggable.js"></script>
 <script>
+  window.log = console.log;
   $(function(){
     // 处理逻辑
 
+    // 创建拖动块物体
 
+    // 增加控制的飞船物体
+    var $airship = $('<div id="ariship">').addClass('airship');
+    var $main = $('#main');
+    $main.append($airship);
+
+
+    // 使飞船可以拖动
+    // api 的使用
+    var airship = new Draggable('#ariship', {
+      start(e){
+        log("点击了",e);
+      },
+      move(e){
+        log('move ,,',e);
+      },
+      end(e){
+        log('end', e)
+      }
+    });
+    /*
+    $airship.on('touchstart mousedown',function(e){
+      log('down',e);
+      $(document).on('touchmove mousemove', function(de){
+        log(de);
+      });
+      $(document).on('touchend mouseup', function(e){
+        $(document).off();
+      })
+    });
+    */
   })
 </script>
 </html>
