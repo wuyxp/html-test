@@ -8,12 +8,15 @@ function Barrier(parent, options){
 var proto = Barrier.prototype = Object.create(Util.prototype);
 
 proto.init = function(){
+  var self = this;
   this.initBarrier();
   this.style = this.hackStyle(this.barrier);
   this.targetSize = this.getSize(this.style);
   this.parentSize = this.getSize(this.hackStyle(this.parent))
   this.targetPosition = this.getPosition(this.style);
-  this.start();
+  setTimeout(function(){
+    self.start();
+  }, this.options.delay)
 }
 
 proto.initBarrier = function(){
