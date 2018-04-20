@@ -108,7 +108,6 @@ Util.prototype.getSize = function(style){
 Util.prototype.addTransform = function(position) {
   var transform = this.style[this.transformProperty];
   if (!transform || transform.indexOf('matrix') == '-1') {
-      // 如果当前元素没有设置transform属性，那么我们可以直接返回position
       return position;
   }
   // 如果是2D的transform，那么translate的值的索引以4开始，否则就是3D，以12开始

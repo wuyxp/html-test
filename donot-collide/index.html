@@ -25,7 +25,7 @@
   $(function(){
     // 处理逻辑
     var airship = createAirship();
-    createBarriers(1, 100, function(){
+    createBarriers(2, 10, function(){
       alert('bang!!!!!');
     })
 
@@ -39,14 +39,15 @@
       for(let i=0; i < num ;i++){
         // 障碍物
         // 初始化位置
-        var initX = Math.random() * 640;;
-        var initY = -50;
+        var initX = Math.random() * 320;
+        var initY = Math.random() * 60;
         barriers.push(new Barrier('#main', {
           className: 'barrier',
           initX: initX,
           initY: initY,
           initSpeed: speed,
           delay: Math.random() * 1000 * 0,
+          targetCoord:airship,
           move(point){
             // 障碍物的 坐标和宽高
             var barriersXY = {
@@ -62,8 +63,8 @@
               x:airship.getMovePoint().x,
               y:airship.getMovePoint().y,
             }
-            log('飞船', airshipXY);
-            log('障碍物', barriersXY);
+            // log('飞船', airshipXY);
+            // log('障碍物', barriersXY);
             if(isBang(barriersXY, airshipXY) && isBang(airshipXY, barriersXY)){
               airship.stopMove();
               barriers.forEach(function(b){

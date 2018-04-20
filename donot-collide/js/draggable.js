@@ -23,7 +23,8 @@ proto.init = function() {
   } else {
     this.elem.addEventListener('mousedown', this);
   }
-  this.setDefaultTarget()
+  this.setDefaultTarget();
+  this.resetPosition();
 }
 
 proto.setTargetDom = function() {
@@ -97,7 +98,7 @@ proto.bindEvent = function(isBind) {
   var context = this;
   var handles = this.handles;
   var eventListener = isBind ? 'addEventListener' : 'removeEventListener';
-  handles.forEach(function(handle) {
+  handles && handles.forEach(function(handle) {
       window[eventListener](handle, context);
   })
 }

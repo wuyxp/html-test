@@ -41,7 +41,45 @@ proto.getMovePoint = function(){
 }
 proto.changePoint = function(movePoint){
   // 这里处理坐标
-  movePoint.y = movePoint.y + 1;
+  // movePoint.y = movePoint.y + 1;
+  // 飞船的宽高和坐标
+  var targetPoint = this.options.targetCoord.endPoint;
+  var targetMovePoint = this.options.targetCoord.movePoint;
+  var targetSize = this.options.targetCoord.targetSize;
+  // 飞船的中心坐标
+  var c_target = {
+    x: targetPoint.x + targetMovePoint.x + (targetSize.width/2),
+    y: targetPoint.y + targetMovePoint.y + (targetSize.height/2),
+  }
+
+  // 障碍物的宽高和坐标
+  console.log('----zwb-----');
+  var soucePoint = this.getPosition(this.style);
+  var souceSize = this.targetSize;
+
+  // 障碍物的中心坐标
+  var c_souce = {
+    x: soucePoint.x + (souceSize.width/2),
+    y: soucePoint.y + (souceSize.height/2),
+  }
+
+  // 计算两个物体的角度坐标
+  var deg = Math.atan2(c_target.y - c_souce.y, c_target.x - c_souce.x);
+
+
+  // 这次移动的距离
+  var speed = this.options.initSpeed;
+
+
+  var x_speed = Math.cos(deg) * speed;
+  var y_speed = Math.sin(deg) * speed;
+
+  var x = x_speed;
+  var y = y_speed;
+  movePoint.x = movePoint.x + x;
+  movePoint.y = movePoint.y + y;
+  console.log('源原点：', c_souce);
+  console.log('目标原点：', c_target);
   this.options.move && this.options.move.call(this, this.getMovePoint());
 }
 proto.stopMove = function(){
@@ -55,7 +93,23 @@ proto.start = function(){
     y: 0
   }
   this.hackTransform();
-  this.render(false, this.barrier, this.movePoint, this.targetPosition, this.changePoint.bind(this), this.options.initSpeed);
+  // this.render(false, this.barrier, this.movePoint, this.targetPosition, this.changePoint.bind(this));
+
+  // 重写定时器
+  var self = this;
+  this.callback = this.changePoint.bind(this);
+  this.__render = function() {
+      if (!self.enable) {
+          // 通过直接return取消定时器
+          return;
+      }
+      self.callback && self.callback(self.movePoint);
+      self.setTransform(true, self.barrier, self.movePoint, self.targetPosition);
+      window.setTimeout(function(){ 
+        self.__render();
+      }, 100)
+  }
+  this.__render();
 },
 
 proto.end = function(){

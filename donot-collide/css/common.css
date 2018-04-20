@@ -48,8 +48,8 @@ html, body{
 }
 
 .barrier{
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 60px;
   background: #FFCC66;
   position: absolute;
 }
