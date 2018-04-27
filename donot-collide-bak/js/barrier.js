@@ -5,14 +5,15 @@ function Barrier(parent, options){
 }
 
 // 继承util对象方法
-var proto = Barrier.prototype = Object.create(Util);
+var proto = Barrier.prototype = Object.create(Util.prototype);
 
 proto.init = function(){
   var self = this;
   this.initBarrier();
-  this.style = this.getStyle(this.barrier);
-  this.targetInfo = this.getDomInfo(this.style);
-  this.parentInfo = this.getDomInfo(this.getStyle(this.parent));
+  this.style = this.hackStyle(this.barrier);
+  this.targetSize = this.getSize(this.style);
+  this.parentSize = this.getSize(this.hackStyle(this.parent))
+  this.targetPosition = this.getPosition(this.style);
   setTimeout(function(){
     self.start();
   }, this.options.delay)
@@ -34,16 +35,17 @@ proto.createBarrier = function(){
 
 proto.getMovePoint = function(){
   return {
-    x: this.movePoint.x + this.targetInfo.x,
-    y: this.movePoint.y + this.targetInfo.y,
+    x: this.movePoint.x + this.targetPosition.x,
+    y: this.movePoint.y + this.targetPosition.y,
   }
 }
 proto.changePoint = function(movePoint){
   // 这里处理坐标
+  // movePoint.y = movePoint.y + 1;
   // 飞船的宽高和坐标
   var targetPoint = this.options.targetCoord.endPoint;
   var targetMovePoint = this.options.targetCoord.movePoint;
-  var targetSize = this.options.targetCoord.targetDomInfo;
+  var targetSize = this.options.targetCoord.targetSize;
   // 飞船的中心坐标
   var c_target = {
     x: targetPoint.x + targetMovePoint.x + (targetSize.width/2),
@@ -52,18 +54,17 @@ proto.changePoint = function(movePoint){
 
   // 障碍物的宽高和坐标
   console.log('----zwb-----');
-  this.style = this.getStyle(this.barrier);
-  var targetInfo = this.getDomInfo(this.style);
+  var soucePoint = this.getPosition(this.style);
+  var souceSize = this.targetSize;
 
   // 障碍物的中心坐标
   var c_souce = {
-    x: targetInfo.x + (targetInfo.width/2),
-    y: targetInfo.y + (targetInfo.height/2),
+    x: soucePoint.x + (souceSize.width/2),
+    y: soucePoint.y + (souceSize.height/2),
   }
 
   // 计算两个物体的角度坐标
   var deg = Math.atan2(c_target.y - c_souce.y, c_target.x - c_souce.x);
-  log(deg)
 
 
   // 这次移动的距离
@@ -75,8 +76,8 @@ proto.changePoint = function(movePoint){
 
   var x = x_speed;
   var y = y_speed;
-  this.movePoint.x = this.movePoint.x + x;
-  this.movePoint.y = this.movePoint.y + y;
+  movePoint.x = movePoint.x + x;
+  movePoint.y = movePoint.y + y;
   console.log('源原点：', c_souce);
   console.log('目标原点：', c_target);
   this.options.move && this.options.move.call(this, this.getMovePoint());
@@ -91,6 +92,8 @@ proto.start = function(){
     x: 0,
     y: 0
   }
+  this.hackTransform();
+  // this.render(false, this.barrier, this.movePoint, this.targetPosition, this.changePoint.bind(this));
 
   // 重写定时器
   var self = this;
@@ -101,7 +104,7 @@ proto.start = function(){
           return;
       }
       self.callback && self.callback(self.movePoint);
-      self.setTransform(false, self.barrier, self.movePoint);
+      self.setTransform(true, self.barrier, self.movePoint, self.targetPosition);
       window.setTimeout(function(){ 
         self.__render();
       }, 100)

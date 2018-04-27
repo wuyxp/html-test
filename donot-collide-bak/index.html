@@ -25,7 +25,7 @@
   $(function(){
     // 处理逻辑
     var airship = createAirship();
-    createBarriers(1, 10, function(){
+    createBarriers(2, 10, function(){
       alert('bang!!!!!');
     })
 
@@ -51,15 +51,15 @@
           move(point){
             // 障碍物的 坐标和宽高
             var barriersXY = {
-              w:this.targetInfo.width,
-              h:this.targetInfo.height,
+              w:this.targetSize.width,
+              h:this.targetSize.height,
               x:point.x,
               y:point.y
             };
             // 飞船的 坐标和宽高
             var airshipXY = {
-              w: airship.targetDomInfo.width,
-              h: airship.targetDomInfo.height,
+              w: airship.targetSize.width,
+              h: airship.targetSize.height,
               x:airship.getMovePoint().x,
               y:airship.getMovePoint().y,
             }
@@ -89,7 +89,6 @@
       // api 的使用
       var airship = new Draggable('#ariship', {
         outsideOfSwipper:true,
-        parentNode: '#main',
         start(e){
           // log("点击了",e);
         },

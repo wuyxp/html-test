@@ -12,55 +12,52 @@ function Draggable(elem, configs){
   this.init();
 }
 
-// 继承util对象方法
-var proto = Draggable.prototype = Object.create(Util.prototype);
+var proto = Draggable.prototype = Object.create(Util);
 
 proto.init = function() {
-  this.setTargetDom();
-  if (this.checkIsTouch()) {
-    // 说明是手机端 手机端的事件还需要兼容更多手机
-    this.elem.addEventListener('touchstart', this);
-  } else {
-    this.elem.addEventListener('mousedown', this);
-  }
+  this.initTargetDom();
+  this.initEventListener();
   this.setDefaultTarget();
   this.resetPosition();
 }
 
-proto.setTargetDom = function() {
+proto.initTargetDom = function() {
   this.elem = this.getDom(this.options.elemString);
-  this.parentMove = this.getDom(this.options.parentMove);
-  // 如果参数使用了parentMove接口，那么就使用parentMove作为拖拽的目标元素
-  this.targetDom = this.parentMove || this.elem;
+  this.parentNode = this.getDom(this.options.parentNode);
+  // 留出elem和targetDom不是一个元素的位置
+  this.targetDom = this.elem;
+}
+proto.initEventListener = function(){
+  if (this.checkIsTouch()) {
+    this.elem.addEventListener('touchstart', this);
+  } else {
+    this.elem.addEventListener('mousedown', this);
+  }
 }
 proto.setDefaultTarget = function(){
+  this.style = this.getStyle(this.targetDom);
+  this.parentDomInfo = this.getDomInfo(this.getStyle(this.parentNode));
+}
+proto.resetPosition = function() {
+  this.targetDomInfo = this.getDomInfo(this.style);
   this.movePoint = {
     x: 0,
     y: 0
   };
-  this.style = this.hackStyle(this.targetDom);
-  this.targetSize = this.getSize(this.style);
-  this.parentSize = this.getSize(this.hackStyle(this.targetDom.parentNode))
-  this.targetPosition = this.getPosition(this.style);
-},
-proto.dragDown = function(event) {
-  this.enable = true;
-  this.hackTransform();
-  this.addClassName();
-  this.setIndex();
-  this.setDefaultTarget();
-  this.startPoint = this.getCoordinate();
-  this.setPositionProperty();
-  this.bindCallBackEvent();
-  this.render(this.options.backToPosition, this.targetDom, this.movePoint, this.targetPosition, function(){}, 0);
-}
-proto.addClassName=function(){
-  if (this.options.addClassName) this.elem.className += ' ' + this.options.addClassName;
-}
-proto.setIndex=function(){
-  // this.elem.style.zIndex=2147483647;
+  this.endPoint = {
+      x: this.movePoint.x + this.targetDomInfo.x,
+      y: this.movePoint.y + this.targetDomInfo.y
+  }
+  this.setTransform(true, this.targetDom, this.movePoint, this.targetDomInfo);
 }
 
+
+proto.dragDown = function(event) {
+  this.enable = true;
+  this.setDefaultTarget();
+  this.startPoint = this.getCoordinate();
+  this.bindCallBackEvent();
+}
 
 // 获取鼠标的坐标
 proto.getCoordinate = function() {
@@ -69,17 +66,6 @@ proto.getCoordinate = function() {
       x: this.event.pageX || (this.event.touches && this.event.touches[0].pageX) || 0,
       y: this.event.pageY || (this.event.touches && this.event.touches[0].pageY) || 0
   }
-}
-proto.setPositionProperty = function() {
-  var p = {
-      fix: true,
-      absolute: true,
-      relative: true
-  };
-  if (!p[this.style.position]) {
-      this.targetDom.style.position = 'relative';
-  }
-  this.targetDom.style.cssText+=';'+'left:'+this.targetPosition.x + 'px;top:'+this.targetPosition.y + 'px;';
 }
 
 // 绑定之后的事件 比如mousemove和mouseup
@@ -109,73 +95,37 @@ proto.dragMove = function() {
       x: vector.x - this.startPoint.x,
       y: vector.y - this.startPoint.y
   }
-  moveVector = this.setGrid(moveVector);
   // outsideOfSwipper 是否可以脱离父级外框
   if(this.options.outsideOfSwipper){
-    if(this.targetPosition.x + moveVector.x <=0 ){
-      moveVector.x = -this.targetPosition.x;
+    if(this.targetDomInfo.x + moveVector.x <=0 ){
+      moveVector.x = -this.targetDomInfo.x;
     }
-    if(this.targetPosition.y + moveVector.y <=0 ){
-      moveVector.y = -this.targetPosition.y;
+    if(this.targetDomInfo.y + moveVector.y <=0 ){
+      moveVector.y = -this.targetDomInfo.y;
     }
-    if(this.targetPosition.x + this.targetSize.width + moveVector.x >= this.parentSize.width){
-      moveVector.x = (this.parentSize.width - this.targetPosition.x - this.targetSize.width)
+    if(this.targetDomInfo.x + this.targetDomInfo.width + moveVector.x >= this.parentDomInfo.width){
+      moveVector.x = (this.parentDomInfo.width - this.targetDomInfo.x - this.targetDomInfo.width)
     }
-    if(this.targetPosition.y + this.targetSize.height + moveVector.y >= this.parentSize.height){
-      moveVector.y = (this.parentSize.height - this.targetPosition.y - this.targetSize.height)
+    if(this.targetDomInfo.y + this.targetDomInfo.height + moveVector.y >= this.parentDomInfo.height){
+      moveVector.y = (this.parentDomInfo.height - this.targetDomInfo.y - this.targetDomInfo.height)
     }
   }
-  if(this.options.axis){
-    ['x','y'].forEach(function(i){
-      if(this.options.axis.indexOf(i) > -1){
-        this.movePoint[i] = moveVector[i];
-      }
-    })
-  }else{
-    this.movePoint.x =  moveVector.x;
-    this.movePoint.y =  moveVector.y;
-  }
+  this.movePoint.x =  moveVector.x;
+  this.movePoint.y =  moveVector.y;
+  this.setTransform(false, this.targetDom, this.movePoint);
 }
 
-
-proto.setGrid = function(moveVector) {
-  if (!this.options.grid) return moveVector;
-  var grid = this.options.grid;
-  var vector = {};
-  vector.x = grid.x ? Math.round(moveVector.x / grid.x) * grid.x : moveVector.x;
-  vector.y = grid.y ? Math.round(moveVector.y / grid.y) * grid.y : moveVector.y;
-  return vector;
-}
 proto.dragUp = function() {
-  var context = this;
   this.enable = false;
-  this.removeClassName();
   this.bindEvent(false);
-  this.resetIndex();
-  if (this.options.backToPosition) return;
+  this.setTransform(true, this.targetDom, this.movePoint, this.targetDomInfo);
   this.resetPosition();
-}
-proto.removeClassName=function(){
-  if (this.options.addClassName) {
-      var re = new RegExp("(?:^|\\s)" + this.options.addClassName + "(?:\\s|$)", "g");
-      this.elem.className = this.elem.className.replace(re, '');
-  }
-}
-proto.resetIndex=function(){
-  // this.elem.style.zIndex='';
-}
-proto.resetPosition = function() {
-  this.endPoint = {
-      x: this.movePoint.x + this.targetPosition.x,
-      y: this.movePoint.y + this.targetPosition.y
-  }
-  this.targetDom.style.cssText+=';left:'+this.endPoint.x + 'px;top:'+this.endPoint.y + 'px;transform:translate3d(0,0,0)';
 }
 
 proto.getMovePoint = function(){
   return {
-    x: this.movePoint.x + this.targetPosition.x,
-    y: this.movePoint.y + this.targetPosition.y,
+    x: this.movePoint.x + this.targetDomInfo.x,
+    y: this.movePoint.y + this.targetDomInfo.y,
   }
 }
 // 手动阻止移动清空所有事件
@@ -184,7 +134,7 @@ proto.stopMove = function(){
 }
 proto.touchstart = proto.mousedown = function(event) {
   this.dragDown(event);
-  this.options.start(this.targetPosition);
+  this.options.start(this.targetDomInfo);
 }
 proto.mousemove = proto.touchmove = function() {
   this.dragMove();
