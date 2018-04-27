@@ -1,6 +1,8 @@
 function Barrier(parent, options){
   this.options = options || {};
   this.options.parentString = parent;
+  this.step = this.options.step;
+  this.speed = this.options.initSpeed;
   this.init();
 }
 
@@ -52,34 +54,33 @@ proto.changePoint = function(movePoint){
 
   // 障碍物的宽高和坐标
   console.log('----zwb-----');
-  this.style = this.getStyle(this.barrier);
-  var targetInfo = this.getDomInfo(this.style);
-
+  var movePoint = this.getMovePoint();
   // 障碍物的中心坐标
   var c_souce = {
-    x: targetInfo.x + (targetInfo.width/2),
-    y: targetInfo.y + (targetInfo.height/2),
+    x: movePoint.x + (this.targetInfo.width/2),
+    y: movePoint.y + (this.targetInfo.height/2),
   }
 
   // 计算两个物体的角度坐标
   var deg = Math.atan2(c_target.y - c_souce.y, c_target.x - c_souce.x);
-  log(deg)
+  // 当前两个物体之间的距离
+  var z = (c_target.x - c_souce.x) / Math.cos(deg);
+  if(z <= this.options.maxSize){
+    this.speed = this.options.minSpeed;
+  }else{
+    this.speed = this.options.initSpeed;
+  }
 
 
   // 这次移动的距离
-  var speed = this.options.initSpeed;
+  var x_speed = Math.cos(deg) * this.step;
+  var y_speed = Math.sin(deg) * this.step;
 
-
-  var x_speed = Math.cos(deg) * speed;
-  var y_speed = Math.sin(deg) * speed;
-
-  var x = x_speed;
-  var y = y_speed;
-  this.movePoint.x = this.movePoint.x + x;
-  this.movePoint.y = this.movePoint.y + y;
+  this.movePoint.x = x_speed + this.movePoint.x;
+  this.movePoint.y = y_speed + this.movePoint.y;
   console.log('源原点：', c_souce);
   console.log('目标原点：', c_target);
-  this.options.move && this.options.move.call(this, this.getMovePoint());
+  this.options.move && this.options.move.call(this, movePoint);
 }
 proto.stopMove = function(){
   this.enable = false;
@@ -96,15 +97,15 @@ proto.start = function(){
   var self = this;
   this.callback = this.changePoint.bind(this);
   this.__render = function() {
-      if (!self.enable) {
+      if (!this.enable) {
           // 通过直接return取消定时器
           return;
       }
-      self.callback && self.callback(self.movePoint);
-      self.setTransform(false, self.barrier, self.movePoint);
+      this.callback && this.callback(this.movePoint);
+      this.setTransform(false, this.barrier, this.movePoint);
       window.setTimeout(function(){ 
-        self.__render();
-      }, 100)
+        self.__render.call(self);
+      }, this.speed)
   }
   this.__render();
 },

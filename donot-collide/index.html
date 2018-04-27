@@ -25,7 +25,7 @@
   $(function(){
     // 处理逻辑
     var airship = createAirship();
-    createBarriers(1, 10, function(){
+    createBarriers(3, 30, function(){
       alert('bang!!!!!');
     })
 
@@ -45,8 +45,10 @@
           className: 'barrier',
           initX: initX,
           initY: initY,
-          initSpeed: speed,
-          delay: Math.random() * 1000 * 0,
+          initSpeed: speed, //初始速度
+          maxSize: 300, // 最大距离开始进行加速
+          minSpeed: speed/3, //减速至最小速度
+          step: 4, // 每次移动步长
           targetCoord:airship,
           move(point){
             // 障碍物的 坐标和宽高
