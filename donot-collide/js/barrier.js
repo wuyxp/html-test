@@ -15,9 +15,6 @@ proto.init = function(){
   this.style = this.getStyle(this.barrier);
   this.targetInfo = this.getDomInfo(this.style);
   this.parentInfo = this.getDomInfo(this.getStyle(this.parent));
-  setTimeout(function(){
-    self.start();
-  }, this.options.delay)
 }
 
 proto.initBarrier = function(){
