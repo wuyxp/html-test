@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>所有测试的html</title>
+  <style>
+    body{ background:#fff;}
+    *{  margin: 0; padding: 0;}
+    h1{ text-align: center; margin-top: 100px;}
+    #c1{ background:#817936; margin: 20px auto; display: block;}
+    #c1 p{ text-align:center; line-height:50px; width:500px; height:500px; font-size:16px; color:#F00;}
+    </style>
+</head>
+<body>
+
+
+<script>
+window.onload = function(){
+        var oC = document.getElementById('c1');
+        var oCG = oC.getContext('2d');
+        oCG.save();
+        oCG.beginPath();
+        oCG.arc(250,120,100,0,Math.PI*2,true);
+        oCG.closePath();
+        oCG.fill();
+        
+        var eyeL_l = 285;
+        var eyeL_t = 75;
+        var eyeR_l = 225;
+        var eyeR_t = 75;
+        
+        BezierEllipse2(oCG,220,70,20,30,"fill","#fff");      //眼框
+        BezierEllipse2(oCG,280,70,20,30,"fill","#fff");      //眼框
+        //BezierEllipse2(oCG,eyeL_l,eyeL_r,10,15,"fill","#000");      //眼珠子
+        //BezierEllipse2(oCG,eyeR_l,eyeR_r,10,15,"fill","#000");      //眼珠子
+        BezierEllipse2(oCG,250,150,40,15,"fill","#f58220");   //嘴
+        BezierEllipse2(oCG,210,135,40,15,"fill","#000");    //嘴遮罩
+        BezierEllipse2(oCG,290,135,40,15,"fill","#000");    //嘴遮罩
+        BezierEllipse2(oCG,170,450,50,20,"fill","#f58220");   //左脚
+        BezierEllipse2(oCG,330,450,50,20,"fill","#f58220");   //右脚
+        BezierEllipse2(oCG,120,240,50,20,"fill","#000");   //左胳膊
+        BezierEllipse2(oCG,390,240,50,20,"fill","#000");   //右胳膊
+        BezierEllipse2(oCG,70,240,20,20,"fill","#fff");   //左手
+        BezierEllipse2(oCG,440,240,20,20,"fill","#fff");   //右手
+        BezierEllipse2(oCG,250,310,150,140,"fill","#000");   //肚子
+        BezierEllipse2(oCG,250,320,140,120,"fill","#fff");   //肚子
+        //BezierEllipse2(oCG,110,250,10,30);
+        
+        document.onmousemove = function(e){
+                var e = e||event;
+                var e_l = e.clientX-oC.offsetLeft;
+                var e_t = e.clientY-oC.offsetTop+document.body.scrollTop;
+                if(e_l>273&&e_l<288){
+                        eyeL_l = e_l;
+                }else if(e_l<273){
+                        eyeL_l = 273;
+                }else{
+                        eyeL_l = 288;
+                }
+                if(e_l>212&&e_l<228){
+                        eyeR_l = e_l;
+                }else if(e_l<212){
+                        eyeR_l = 212;
+                }else{
+                        eyeR_l = 228;
+                }
+                if(e_t>60&&e_t<80){
+                        eyeL_t = e_t;
+                }else if(e_t<60){
+                        eyeL_t = 60;
+                }else{
+                        eyeL_t = 80;
+                }
+                BezierEllipse2(oCG,220,70,20,30,"fill","#fff");      //眼框
+                BezierEllipse2(oCG,280,70,20,30,"fill","#fff");      //眼框
+                BezierEllipse2(oCG,eyeL_l,eyeL_t,10,15,"fill","#000");      //眼珠子
+                BezierEllipse2(oCG,eyeR_l,eyeL_t,10,15,"fill","#000");      //眼珠子
+        }
+        
+}
+
+function BezierEllipse2(ctx, x, y, a, b,type,color)
+{
+   var k = .5522848,
+   ox = a * k, // 水平控制点偏移量
+   oy = b * k; // 垂直控制点偏移量
+
+   ctx.beginPath();
+   //从椭圆的左端点开始顺时针绘制四条三次贝塞尔曲线
+   ctx.moveTo(x - a, y);
+   ctx.bezierCurveTo(x - a, y - oy, x - ox, y - b, x, y - b);
+   ctx.bezierCurveTo(x + ox, y - b, x + a, y - oy, x + a, y);
+   ctx.bezierCurveTo(x + a, y + oy, x + ox, y + b, x, y + b);
+   ctx.bezierCurveTo(x - ox, y + b, x - a, y + oy, x - a, y);
+   ctx.closePath();
+   if(type=="stroke"){
+           ctx.strokeStyle=color;
+           ctx.stroke();
+        }else{
+                ctx.fillStyle=color;
+                ctx.fill()
+        };
+};
+</script>
+</head>
+
+<body>
+  <h1>欢迎来到www测试网站。这里基本上都是展示的测试页面</h1>
+<canvas id="c1" width="500" height="500">
+<p>你的浏览器不支持canvas，请换一个支持的谷歌或者火狐</p>
+</canvas>
+</body>
+</html>
