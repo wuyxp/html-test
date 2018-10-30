@@ -1,0 +1,670 @@
+body{
+  background: #161616;
+}
+.main{
+
+}
+.hide{
+  display: none;
+}
+/* 开始页面布局 */
+.start-bg{
+  width: 100%;
+  height: 17.813333rem;
+  background:url('../images/start-bg.jpg') no-repeat center #161616;
+  background-size:contain; 
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+.icon-logo{
+  position: absolute;
+  width: 4rem;
+  height: .426667rem;
+  background:url('../images/icon-qbjr.png') no-repeat center;
+  background-size:contain; 
+  top: .266667rem;
+  left: .32rem;
+}
+.rule{
+  font-size: .426667rem;
+  color: #fff;
+  position: absolute;
+  right: 0;
+  top: .27rem;
+  width: 2.3rem;
+  text-align: center;
+}
+.start{
+  font-size: .706667rem;
+  color: #fff;
+  position: absolute;
+  top: 12.223333rem;
+  width: 4.95rem;
+  left: 2.5rem;
+  text-align: center;
+}
+
+/* 游戏场景 */
+.game{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+.game-data {
+  
+}
+.game-main{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+.game-data-1{
+  font-size: .48rem;
+  color: #fff;
+  position: absolute;
+  right: .6rem;
+  top: .55rem;
+  z-index: 2;
+}
+.game-data-2{
+  font-size: .573333rem;
+  color: #fff;
+  position: absolute;
+  right: 1.2rem;
+  top: 1.2rem;
+  z-index: 2;
+}
+
+.game-bg-1{
+  background:url('../images/game-bg-1.jpg') no-repeat top #083d31;
+  background-size: contain;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+}
+
+.game-bg-2{
+  background:url('../images/game-bg-2.jpg') no-repeat top #e2c187;
+  background-size: contain;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+}
+
+/* 士兵 */
+.soldier{
+  width: 2.146667rem;
+  height: 3.76rem;
+  position: absolute;
+  top: 10.666667rem;
+  left: 3.28rem;
+}
+.game-1 .soldier{
+  background:
+    url('../images/soldier-1.png') no-repeat,
+    url('../images/hero-bg-1.png') no-repeat bottom
+  ;
+  background-size: contain;
+}
+.game-2 .soldier{
+  background:
+    url('../images/soldier-1.png') no-repeat,
+    url('../images/hero-bg-2.png') no-repeat bottom
+  ;
+  background-size: contain;
+}
+
+@-webkit-keyframes soldier_key_1{
+  0% {
+    background:
+    url('../images/soldier-1.png') no-repeat,
+    url('../images/hero-bg-1.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+  50% {
+    background:
+    url('../images/soldier-2.png') no-repeat,
+    url('../images/hero-bg-1.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+  100% {
+    background:
+    url('../images/soldier-1.png') no-repeat,
+    url('../images/hero-bg-1.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+}
+
+@keyframes soldier_key_1{
+  0% {
+    background:
+    url('../images/soldier-1.png') no-repeat,
+    url('../images/hero-bg-1.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+  50% {
+    background:
+    url('../images/soldier-2.png') no-repeat,
+    url('../images/hero-bg-1.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+  100% {
+    background:
+    url('../images/soldier-1.png') no-repeat,
+    url('../images/hero-bg-1.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+}
+
+@-webkit-keyframes soldier_key_2{
+  0% {
+    background:
+    url('../images/soldier-1.png') no-repeat,
+    url('../images/hero-bg-2.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+  50% {
+    background:
+    url('../images/soldier-2.png') no-repeat,
+    url('../images/hero-bg-2.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+  100% {
+    background:
+    url('../images/soldier-1.png') no-repeat,
+    url('../images/hero-bg-2.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+}
+
+@keyframes soldier_key_2{
+  0% {
+    background:
+    url('../images/soldier-1.png') no-repeat,
+    url('../images/hero-bg-2.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+  50% {
+    background:
+    url('../images/soldier-2.png') no-repeat,
+    url('../images/hero-bg-2.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+  100% {
+    background:
+    url('../images/soldier-1.png') no-repeat,
+    url('../images/hero-bg-2.png') no-repeat bottom
+    ;
+    background-size: contain;
+  }
+}
+.soldier-move{
+  -webkit-animation-duration: .5s;
+          animation-duration: .5s;
+  -webkit-animation-timing-function: step-end;
+          animation-timing-function: step-end;
+  -webkit-animation-fill-mode:both;
+          animation-fill-mode:both;
+  -webkit-animation-direction: reverse;
+          animation-direction: reverse;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+.game-1 .soldier-move{
+  -webkit-animation-name: soldier_key_1;
+          animation-name: soldier_key_1;
+}
+.game-2 .soldier-move{
+  -webkit-animation-name: soldier_key_2;
+          animation-name: soldier_key_2;
+}
+
+/* 敌人 */
+.enemy{
+  width: 1.506667rem;
+  height: 1.786667rem;
+  position: absolute;
+  -webkit-animation-duration: .5s;
+          animation-duration: .5s;
+  -webkit-animation-timing-function: step-end;
+          animation-timing-function: step-end;
+  -webkit-animation-fill-mode:both;
+          animation-fill-mode:both;
+  -webkit-animation-direction: reverse;
+          animation-direction: reverse;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+.game-1 .enemy{
+  background:
+    url('../images/enemy-1.png') no-repeat,
+    url('../images/hero-bg-1.png') no-repeat bottom center
+  ;
+  background-size: contain;
+  -webkit-animation-name: enemy_key_1;
+          animation-name: enemy_key_1;
+}
+.game-2 .enemy{
+  background:
+    url('../images/enemy-1.png') no-repeat,
+    url('../images/hero-bg-2.png') no-repeat bottom center
+  ;
+  background-size: contain;
+  -webkit-animation-name: enemy_key_2;
+          animation-name: enemy_key_2;
+}
+
+@-webkit-keyframes enemy_key_1{
+  0% {
+    background:
+      url('../images/enemy-1.png') no-repeat,
+      url('../images/hero-bg-1.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+  50% {
+    background:
+      url('../images/enemy-2.png') no-repeat,
+      url('../images/hero-bg-1.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+  100% {
+    background:
+      url('../images/enemy-1.png') no-repeat,
+      url('../images/hero-bg-1.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+}
+
+@keyframes enemy_key_1{
+  0% {
+    background:
+      url('../images/enemy-1.png') no-repeat,
+      url('../images/hero-bg-1.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+  50% {
+    background:
+      url('../images/enemy-2.png') no-repeat,
+      url('../images/hero-bg-1.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+  100% {
+    background:
+      url('../images/enemy-1.png') no-repeat,
+      url('../images/hero-bg-1.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+}
+@-webkit-keyframes enemy_key_2{
+  0% {
+    background:
+      url('../images/enemy-1.png') no-repeat,
+      url('../images/hero-bg-2.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+  50% {
+    background:
+      url('../images/enemy-2.png') no-repeat,
+      url('../images/hero-bg-2.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+  100% {
+    background:
+      url('../images/enemy-1.png') no-repeat,
+      url('../images/hero-bg-2.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+}
+@keyframes enemy_key_2{
+  0% {
+    background:
+      url('../images/enemy-1.png') no-repeat,
+      url('../images/hero-bg-2.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+  50% {
+    background:
+      url('../images/enemy-2.png') no-repeat,
+      url('../images/hero-bg-2.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+  100% {
+    background:
+      url('../images/enemy-1.png') no-repeat,
+      url('../images/hero-bg-2.png') no-repeat bottom center
+    ;
+    background-size: contain;
+  }
+}
+
+
+/* 底部icon */
+.icon-footer{
+  position: absolute;
+  bottom: .3067rem;
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  line-height: .46rem;
+  font-size: .2133rem;
+  z-index: 1     ;
+}
+.icon-footer-logo{
+  width: 2.1375rem;
+  height: .3625rem;
+  padding-bottom: .3rem;
+  display: inline-block;
+  background:url('../images/ft_logo.png') no-repeat center;
+  background-size:contain;
+}
+.icon-footer .text2{
+    font-size: .32rem;
+}
+
+/* 底部 */
+.footer{
+  width:100%;
+  background-color:#161616;
+  color:#3d3d3d;    
+  font-size:0.29333rem;
+  text-align: center;
+  padding: .4rem 0px;
+  margin-top: -1px;
+}
+.footer .text2{
+  margin-top:0.17333rem;
+}
+
+/* mask和弹窗 */
+.bgmask{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .5);
+  z-index: 999;
+}
+/* 游戏倒计时 */
+.zone{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  overflow: hidden;
+}
+.zone-date{
+  width: 2.026667rem;
+  height: 2.96rem;
+  background-size:contain;
+  margin: 5rem auto;
+}
+
+.zone-date-bg-1{
+  background-image:url('../images/d1.png');
+}
+.zone-date-bg-2{
+  background-image:url('../images/d2.png');
+}
+.zone-date-bg-3{
+  background-image:url('../images/d3.png');
+}
+/* 领奖时弹窗 */
+.prize-popup{
+  width: 9.24rem;
+  border-radius: .106667rem;
+  background-color: #fff;
+  z-index: 1000;
+  top: 4rem;
+  left: .386667rem;
+  position: absolute;
+  padding-bottom: .8rem;
+}
+.popup-swiper{
+  width: 100%;
+  height: 2.933333rem;
+  margin-top: .44rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.swiper-left{
+  display: inline-block;
+  margin-left: .306667rem;
+}
+.swiper-left i{
+  width: .346667rem;
+  height: .8rem;
+  background:url('../images/arrow-left.png') no-repeat center;
+  background-size:contain;
+  float: left;
+}
+.swiper-right{
+  display: inline-block;
+  margin-right: .306667rem;
+}
+.swiper-right i{
+  width: .346667rem;
+  height: .8rem;
+  background:url('../images/arrow-right.png') no-repeat center;
+  background-size:contain; 
+  float: left;
+}
+.swiper-container{
+  display: inline-block;
+  width: 7rem;
+  margin: 0 .5rem;
+}
+.prize-list{
+  -webkit-transform: translateX(0rem);
+          transform: translateX(0rem);
+  width: 50rem;
+  -webkit-transition: -webkit-transform .2s ease-in;
+  transition: -webkit-transform .2s ease-in;
+  transition: transform .2s ease-in;
+  transition: transform .2s ease-in, -webkit-transform .2s ease-in;
+}
+.prize-list > li{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 3.5rem;
+  margin-top: .133333rem;
+  float: left;
+}
+.prize-text{
+  width: 3.333333rem;
+  height: 2.093333rem;
+  background:url('../images/prize-bg.png') no-repeat center;
+  background-size:contain;
+  color: #fff;
+  text-align: center;
+}
+.prize-text-label{
+  font-size: .466667rem;
+  margin-top: .346667rem;
+}
+.prize-checkbox{
+  width: .733333rem;
+  height: .6rem;
+  margin-top: .133333rem;
+  background:url('../images/checkbox.png') no-repeat center;
+  background-size:contain;
+}
+.prize-checkbox-ed{
+  background:url('../images/checkbox-ed.png') no-repeat center;
+  background-size:contain;
+}
+.prize-tip{
+  text-align: center;
+  color: #000000;
+  font-size: .426667rem;
+  margin-top: .2rem;
+  display: none;
+}
+.popup-buttons{
+  margin-top: .32rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.popup-buttons a{
+  width: 3.32rem;
+  height: .986667rem;
+  background:url('../images/button-bg.png') no-repeat center;
+  background-size:contain;
+  text-align: center;
+  font-size: .426667rem;
+  color: #fff;
+  line-height: .986667rem;
+}
+.popup-buttons a:nth-child(1){
+  margin-right: .4rem;
+}
+/* 其他弹窗 */
+.popup{
+  width: 7.573333rem;
+  position: absolute;
+  left: 1.213333rem;
+  top: 4rem;
+  z-index: 1000;
+}
+.popup-title{
+  width: 100%;
+  height: 1.48rem;
+  font-style: italic;
+  font-size: .48rem;
+  color: #fff;
+  background: #a57956;
+  border-radius: .15rem .15rem 0 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.popup-container{
+  width: 100%;
+  padding-bottom: 1rem;
+  background: #f3f3f6;
+  border-radius: 0 0 .15rem .15rem;
+  overflow: hidden;
+}
+.popup-close{
+  width: .853333rem;
+  height: .853333rem;
+  background:url('../images/close.png') no-repeat center;
+  background-size:contain;
+  margin: .373333rem auto;
+}
+.popup-ul{
+  width: 6.466667rem;
+  margin-left: .506667rem;
+  margin-top: .5rem;
+}
+.popup-ul li{
+  margin-top: .3rem;
+}
+.popup-button{
+  width: 5.893333rem;
+  height: 1.066667rem;
+  background-color: #a57956;
+  border-radius: .533333rem;
+  text-align: center;
+  line-height: 1.066667rem;
+  font-size: .506667rem;
+  color: #fff;
+  margin-left: .84rem;
+  margin-top: .84rem;
+}
+.popup-title-bg-left, .popup-title-bg-right{
+  width: 1.066667rem;
+  height: 1.133333rem;
+  background:url('../images/enemy-1.png') no-repeat center;
+  background-size:contain; 
+  display: inline-block;
+}
+.popup-title-bg-left{
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+  margin-right: .2rem;
+}
+.popup-title-bg-right{
+  margin-left: .2rem;
+}
+.popup-result{
+  text-align: center;
+  font-size: .56rem;
+  color: #a57956;
+  margin-top: .8rem;
+}
+.popup-describe{
+  text-align: center;
+  font-size: .373333rem;
+  margin-top: .3rem;
+}
+.popup-success{
+  width: 1.48rem;
+  height: 2.146667rem;
+  background:url('../images/hero.png') no-repeat center;
+  background-size:contain; 
+  text-align: center;
+  margin: .5rem auto;
+}

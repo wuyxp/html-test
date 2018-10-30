@@ -1,0 +1,146 @@
+<!doctype html>
+<html style="font-size: 100px">
+<head>
+    <meta charset="UTF-8">
+    <title>发财节来吃鸡</title>
+    <link rel="stylesheet" href="./css/facai.css">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/Util.js"></script>
+    <script src="./js/draggable.js"></script>
+    <script src="./js/barrier.js"></script>
+    <script src="./js/create.js"></script>
+    <script src="./js/init.js"></script>
+</head>
+<body>
+<!-- 开始场景 -->
+<div class="start-bg" id="start_bg">
+  <div class="rule" id="rule">活动规则</div>
+  <div class="start" id="start">START</div>
+</div>
+<div class="footer">
+  <div class="text1">Copyright  2017</div>
+  <div class="text2">版权所有 闽ICP备15025259号-5</div>
+</div>
+
+<!-- 游戏场景 -->
+<div class="game hide" id="game_mask">
+  <div class="game-data game-data-2 game-data-1" id="dateTime">30s</div>
+  <div class="game-main" id="gameMain"></div>
+  <!-- 游戏背景 -->
+  <div class="game-bg game-bg-1 hide" id="game_bg_1"></div>
+  <div class="game-bg game-bg-2 hide" id="game_bg_2"></div>
+</div>
+
+
+<div class="bgmask hide" id="mask"></div>
+<!-- 游戏倒计时 -->
+<div class="zone hide" id="zone">
+  <div id="zone_date" class="zone-date zone-date-bg-3"></div>
+</div>
+
+<!-- 游戏规则 -->
+<div class="popup hide" id="game_rule">
+  <div class="popup-title">
+    <span class="popup-title-bg-left"></span>
+    游戏规则
+    <span class="popup-title-bg-right "></span>
+  </div>
+  <div class="popup-container">
+    <ul class="popup-ul">
+    </ul>
+    <div class="popup-button" id="ok">ok</div>
+  </div>
+</div>
+
+
+<!-- 活动规则 -->
+<div class="popup hide" id="active_rule">
+  <div class="popup-title">
+    活动规则
+  </div>
+  <div class="popup-container">
+    <ul class="popup-ul">
+    </ul>
+  </div>
+  <div class="popup-close"></div>
+</div>
+
+<!-- 继续游戏 -->
+<div class="popup hide" id="doget_prize">
+  <div class="popup-title">
+  </div>
+  <div class="popup-container">
+    <div class="popup-result">
+      已坚持<span id="doget_prize_num"></span>秒！
+    </div>
+    <div class="popup-describe">
+      今日已领取优惠券~
+    </div>
+    <div class="popup-button popup-restart">继续游戏</div>
+  </div>
+  <div class="popup-close popup-reload"></div>
+</div>
+
+<!-- 落地成盒 -->
+<div class="popup hide" id="none_prize">
+  <div class="popup-title">
+  </div>
+  <div class="popup-container">
+    <div class="popup-result">
+        落地成盒~
+    </div>
+    <div class="popup-describe">
+        尚未达到领取奖励条件<br />
+        继续加油，再接再厉~
+    </div>
+    <div class="popup-button popup-restart">重新挑战</div>
+  </div>
+  <div class="popup-close popup-reload"></div>
+</div>
+
+<!-- 领取成功 -->
+<div class="popup hide" id="result_prize">
+  <div class="popup-title">
+  </div>
+  <div class="popup-container">
+    <div class="popup-success"></div>
+    <div class="popup-result">
+        领取成功~
+    </div>
+    <div class="popup-describe">
+        奖品会在2小时内添加到我的-优惠券中
+    </div>
+  </div>
+</div>
+
+<!-- 领奖 -->
+<div class="prize-popup hide" id="prize_popup">
+  <div class="popup-result" id="popup_result">
+      
+  </div>
+  <div class="popup-describe">
+      可领取以下<span id='prize_num_span'></span>优惠券中的1种
+  </div> 
+  <div class="popup-swiper">
+    <div class="swiper-left">
+      <i id="swiper_left"></i>
+    </div>
+    <div class="swiper-container mySwiperCt">
+      <ul class="prize-list swiper-wrapper" id="swiper_list">
+        
+      </ul>
+    </div>
+    <div class="swiper-right">
+      <i id="swiper_right"></i>
+    </div>
+  </div>
+  <div class="prize-tip" id="prizeTip">
+    请先选择优惠券！
+  </div>
+  <div class="popup-buttons">
+    <a href="javascript:;" class="popup-restart" style="color: #e3bfa2">继续游戏</a> 
+    <a href="javascript:;" class="" id="get_prize">领取奖励</a> 
+  </div>
+</div>
+</body>
+</html>
