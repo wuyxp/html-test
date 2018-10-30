@@ -17,7 +17,14 @@
       console.log(li2);
 
       console.log('---------');
-      console.log(ol.attributes)
+      console.log(ol.attributes);
+      li1[1].addEventListener('click', function(){
+        window.postMessage('abccc',"http://127.0.0.1:5500")
+      }, false);
+    })
+    window.addEventListener('message', function(event){
+      // alert(event);
+      location.reload();
     })
   </script>
 </head>
